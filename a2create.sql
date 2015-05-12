@@ -1,8 +1,8 @@
 CREATE TABLE `Airport` (
-	`airportID` INTEGER(4)		NOT NULL,
-	`name`		VARCHAR(64)	NOT NULL,
-	`city`		VARCHAR(32)	NOT NULL,
-	`country`	VARCHAR(32)	NOT NULL,
+	`airportID` INT		NOT NULL	AUTO_INCREMENT,
+	`name`		VARCHAR(64)		NOT NULL,
+	`city`		VARCHAR(32)		NOT NULL,
+	`country`	VARCHAR(32)		NOT NULL,
 	`IATA` 		VARCHAR(3)		NOT NULL,
 	`latitude`	DOUBLE(5,2)		NOT NULL,
 	`longitude`	DOUBLE(5,2)		NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE `Airport` (
 );
 
 CREATE TABLE `Route` (
-	`routeID`				INTEGER(4)	NOT NULL,
+	`routeID`				INTEGER(4)	NOT NULL	AUTO_INCREMENT,
 	`sourceAirport`			VARCHAR(3)	NOT NULL,
 	`destinationAirport`	VARCHAR(3)	NOT NULL,
 	`codeShare`				VARCHAR(1),
@@ -24,7 +24,7 @@ CREATE TABLE `Route` (
 
 
 CREATE TABLE `Fleet` (
-	`fleetID`		INTEGER(4)		NOT NULL,
+	`fleetID`		INTEGER(4)		NOT NULL	AUTO_INCREMENT,
 	`aircraft`		VARCHAR(32)		NOT NULL,
 	`inService`		INTEGER(2)		NOT NULL,
 	`firstClass`	INTEGER(2)		NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE `Fleet` (
 
 CREATE TABLE `Customer`
 (
-	`customer_id` 			INTEGER(4) 		NOT NULL,
+	`customer_id` 			INTEGER(4) 		NOT NULL	AUTO_INCREMENT,
 	`title`					VARCHAR(16) 	NOT NULL,
 	`first_name`			VARCHAR(32)		NOT NULL,
 	`last_name`				VARCHAR(32)		NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `Login`
 
 CREATE TABLE `AgentProfiles`
 (
-	`agent_id`	INTEGER(3)	NOT NULL,
+	`agent_id`	INTEGER(3)	NOT NULL	AUTO_INCREMENT,
 	`name`		VARCHAR(32)	NOT NULL,
 	`phone`		VARCHAR(16)	NOT NULL,
 	`email`		VARCHAR(64)	NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE `AgentProfiles`
 
 CREATE TABLE `ServiceInventory`
 (
-	`service_id`	INTEGER(2)	NOT NULL,
+	`service_id`	INTEGER(2)	NOT NULL	AUTO_INCREMENT,
 	`item`			VARCHAR(32)	NOT NULL,
 	`cost`			INTEGER(3)	NOT NULL,
 	`avaliablity`	VARCHAR(32)	NOT NULL,
