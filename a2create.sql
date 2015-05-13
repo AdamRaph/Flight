@@ -1,16 +1,4 @@
-CREATE TABLE `Airport` (
-	`airportID` INT		NOT NULL	AUTO_INCREMENT,
-	`name`		VARCHAR(64)		NOT NULL,
-	`city`		VARCHAR(32)		NOT NULL,
-	`country`	VARCHAR(32)		NOT NULL,
-	`IATA` 		VARCHAR(3)		NOT NULL,
-	`latitude`	DOUBLE(5,2)		NOT NULL,
-	`longitude`	DOUBLE(5,2)		NOT NULL,
-	`altitude`	INTEGER(4)		NOT NULL,
-	`DST`		VARCHAR(1)		NOT NULL,
-	`timeZone`	VARCHAR(32)	NOT NULL,
-	CONSTRAINT Airport_PK PRIMARY KEY(`airportID`, `IATA`)
-);
+
 
 CREATE TABLE `Route` (
 	`routeID`				INTEGER(4)	NOT NULL	AUTO_INCREMENT,
