@@ -1,5 +1,14 @@
+DROP TABLE IF EXISTS `Airport`;
+DROP TABLE IF EXISTS `Route`;
+DROP TABLE IF EXISTS `Fleet`;
+DROP TABLE IF EXISTS `Customer`;
+DROP TABLE IF EXISTS `Login`;
+DROP TABLE IF EXISTS `AgentProfiles`;
+DROP TABLE IF EXISTS `ServiceInventory`;
+DROP TABLE IF EXISTS `Seat`;
+
 CREATE TABLE `Airport` (
-	`airportID` INT		NOT NULL	AUTO_INCREMENT,
+	`airportID` INT				NOT NULL	AUTO_INCREMENT,
 	`name`		VARCHAR(64)		NOT NULL,
 	`city`		VARCHAR(32)		NOT NULL,
 	`country`	VARCHAR(32)		NOT NULL,
@@ -8,7 +17,7 @@ CREATE TABLE `Airport` (
 	`longitude`	DOUBLE(5,2)		NOT NULL,
 	`altitude`	INTEGER(4)		NOT NULL,
 	`DST`		VARCHAR(1)		NOT NULL,
-	`timeZone`	VARCHAR(32)	NOT NULL,
+	`timeZone`	VARCHAR(32)		NOT NULL,
 	CONSTRAINT Airport_PK PRIMARY KEY(`airportID`, `IATA`)
 );
 
@@ -19,7 +28,6 @@ CREATE TABLE `Route` (
 	`codeShare`				VARCHAR(1),
 	`stops`					INTEGER(1),
 	CONSTRAINT Route_PK PRIMARY KEY(`routeID`)
-	/*FOREIGN KEY (`sourceAirport`) REFERENCES `Airport`(`IATA`)*/
 );
 
 
@@ -33,6 +41,42 @@ CREATE TABLE `Fleet` (
 	`economyClass`	INTEGER(3)		NOT NULL,
 	`total`			INTEGER(3)		NOT NULL,
 	CONSTRAINT Fleet_PK PRIMARY KEY(`fleetID`)
+);
+
+CREATE TABLE `Seat`
+(
+	`seat_id`		INTEGER(4)		NOT NULL	AUTO_INCREMENT,
+	`seat_class`	VARCHAR(16) 	NOT NULL,
+	`seat_number`	VARCHAR(3)		NOT NULL,
+	`occupied`	BOOLEAN			NOT NULL,
+	`fleetID` 	INTEGER(4)		NOT NULL,
+	
+	CONSTRAINT Seat_PK PRIMARY KEY(`seat_id`),
+	CONSTRAINT Seat_NUM UNIQUE (`seat_number`),
+	
+	CONSTRAINT Seat_FK
+	FOREIGN KEY (`fleetID`) 
+	REFERENCES `Fleet`(`fleetID`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
+);
+
+CREATE TABLE `Login`
+(
+	`username`	VARCHAR(32)		NOT NULL,
+	`password`	VARCHAR(32)		NOT NULL,
+	`role`		VARCHAR(16)		NOT NULL,
+	CONSTRAINT Login_PK PRIMARY KEY(`username`)
+);
+
+CREATE TABLE `AgentProfiles`
+(
+	`agent_id`		INTEGER(3)		NOT NULL	AUTO_INCREMENT,
+	`travel_agent`	VARCHAR(32)		NOT NULL,
+	`phone`			VARCHAR(16)		NOT NULL,
+	`email`			VARCHAR(64)		NOT NULL,
+	CONSTRAINT Agent_PK PRIMARY KEY(`agent_id`),
+	CONSTRAINT unq_agent UNIQUE (`travel_agent`, `phone`, `email`)
 );
 
 CREATE TABLE `Customer`
@@ -49,35 +93,26 @@ CREATE TABLE `Customer`
 	`city`					VARCHAR(32)		NOT NULL,
 	`country`				VARCHAR(32)		NOT NULL,
 	`credit_card_type` 		VARCHAR(32)		NOT NULL,
-	`credit_card_num`		VARCHAR(16)		NOT NULL,
+	`credit_card_num`		VARCHAR(32)		NOT NULL,
 	`frequent_flier_pts`	INTEGER(6)		NOT NULL,
 	`passport_holder`		BOOLEAN			NOT NULL,
 	`flight_status`			VARCHAR(8),
 	`travel_agent`			VARCHAR(32),
-	`username` 				VARCHAR(32)	NOT NULL,
+	`username` 				VARCHAR(32)		NOT NULL,
 	CONSTRAINT Cust_PK PRIMARY KEY(`customer_id`),
-	/*FOREIGN KEY (`username`) REFERENCES `Login`(`username`),
-	FOREIGN KEY (`travel_agent`) REFERENCES `AgentProfiles`(`name`),
-	*/
-    CONSTRAINT usr UNIQUE (`username`)
-);
-
-CREATE TABLE `Login`
-(
-	`username`	VARCHAR(32)	NOT NULL,
-	`password`	VARCHAR(32)	NOT NULL,
-	`role`		VARCHAR(16)	NOT NULL,
-	CONSTRAINT Login_PK PRIMARY KEY(`username`)
-);
-
-CREATE TABLE `AgentProfiles`
-(
-	`agent_id`	INTEGER(3)	NOT NULL	AUTO_INCREMENT,
-	`name`		VARCHAR(32)	NOT NULL,
-	`phone`		VARCHAR(16)	NOT NULL,
-	`email`		VARCHAR(64)	NOT NULL,
-	CONSTRAINT Agent_PK PRIMARY KEY(`agent_id`),
-	CONSTRAINT unq_agent UNIQUE (`name`, `phone`, `email`)
+	CONSTRAINT usr UNIQUE (`username`),
+	
+	CONSTRAINT Cust_FK
+	FOREIGN KEY (`username`) 
+	REFERENCES `Login`(`username`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
+	
+	CONSTRAINT Cust_FK2
+	FOREIGN KEY (`travel_agent`) 
+	REFERENCES `AgentProfiles`(`travel_agent`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 );
 
 CREATE TABLE `ServiceInventory`
