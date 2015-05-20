@@ -1,4 +1,3 @@
-INSERT INTO `Fleet` VALUES(1, 'Boeing A747-600', 6, 12, 40, 30, 280, 368);
 INSERT INTO `Seat` VALUES (1, 'First', '1A', false, 3);
 INSERT INTO `Seat` VALUES (2, 'First', '1B', false, 3);
 INSERT INTO `Seat` VALUES (3, 'First', '1C', false, 3);
