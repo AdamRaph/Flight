@@ -19,7 +19,7 @@ int main()
 	int premium_class = 0;
 	int economy_class = 0;
 	int seats_per_row = 6;
-	cout << "fleetID: ";
+	cout << "planeID: ";
 	cin >> fleet_id;
 	cout << "How many seats in first class: ";
 	cin >> first_class;

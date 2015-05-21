@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS `Airport`;
 DROP TABLE IF EXISTS `Route`;
 DROP TABLE IF EXISTS `Fleet`;
+DROP TABLE IF EXISTS `Airplane`;
 DROP TABLE IF EXISTS `Customer`;
 DROP TABLE IF EXISTS `Schedule`;
 DROP TABLE IF EXISTS `Login`;
@@ -41,7 +42,47 @@ CREATE TABLE `Fleet` (
 	`premiumClass`	INTEGER(2)		NOT NULL,
 	`economyClass`	INTEGER(3)		NOT NULL,
 	`total`			INTEGER(3)		NOT NULL,
+	`seatsPerRow` 	INTEGER(2)		NOT NULL,
 	CONSTRAINT Fleet_PK PRIMARY KEY(`fleetID`)
+);
+
+CREATE TABLE `Airplane`
+(
+	`PlaneID`	INTEGER(4)		NOT NULL 	AUTO_INCREMENT,
+	`aircraft`	VARCHAR(32)		NOT NULL,
+	`firstClass`	INTEGER(2)		NOT NULL,
+	`businessClass`	INTEGER(2)		NOT NULL,
+	`premiumClass`	INTEGER(2)		NOT NULL,
+	`economyClass`	INTEGER(3)		NOT NULL,
+	`total`			INTEGER(3)		NOT NULL,
+
+	CONSTRAINT Seat_PK PRIMARY KEY(`PlaneID`),
+
+	CONSTRAINT Seat0_FK
+	FOREIGN KEY (`aircraft`) 
+	REFERENCES `Airplane`(`aircraft`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
+	
+	CONSTRAINT Seat1_FK
+	FOREIGN KEY (`firstClass`) 
+	REFERENCES `Airplane`(`firstClass`),
+	
+	CONSTRAINT Seat2_FK
+	FOREIGN KEY (`businessClass`) 
+	REFERENCES `Airplane`(`businessClass`),
+	
+	CONSTRAINT Seat3_FK
+	FOREIGN KEY (`premiumClass`) 
+	REFERENCES `Airplane`(`premiumClass`),
+	
+	CONSTRAINT Seat4_FK
+	FOREIGN KEY (`economyClass`) 
+	REFERENCES `Airplane`(`economyClass`),
+	
+	CONSTRAINT Seat5_FK
+	FOREIGN KEY (`total`) 
+	REFERENCES `Airplane`(`total`)
 );
 
 CREATE TABLE `Seat`
@@ -57,7 +98,7 @@ CREATE TABLE `Seat`
 	
 	CONSTRAINT Seat_FK
 	FOREIGN KEY (`fleetID`) 
-	REFERENCES `Fleet`(`fleetID`)
+	REFERENCES `Airplane`(`fleetID`)
 	ON DELETE CASCADE
 	ON UPDATE NO ACTION
 );
@@ -66,7 +107,7 @@ CREATE TABLE `Schedule`
 (
 	`scheduleID`	INTEGER(4)	NOT NULL	AUTO_INCREMENT,
 	`flightID`		VARCHAR(8)	NOT NULL,
-	`fleetID`		INTEGER(4)	NOT NULL,
+	`planeID`		INTEGER(4)	NOT NULL,
 	`routeID`		INTEGER(4)	NOT NULL,
 	`departTime`	VARCHAR(64) NOT NULL,
 	`arriveTime`	VARCHAR(64)	NOT NULL,
@@ -75,8 +116,8 @@ CREATE TABLE `Schedule`
 	CONSTRAINT Flight_ID UNIQUE (`flightID`),
 	
 	CONSTRAINT Schedule_FK
-	FOREIGN KEY (`fleetID`) 
-	REFERENCES `Fleet`(`fleetID`)
+	FOREIGN KEY (`planeID`) 
+	REFERENCES `Plane`(`planeID`)
 	ON DELETE CASCADE
 	ON UPDATE NO ACTION,
 	
@@ -137,8 +178,6 @@ CREATE TABLE `Customer`
 	CONSTRAINT Cust_FK2
 	FOREIGN KEY (`travel_agent`) 
 	REFERENCES `AgentProfiles`(`travel_agent`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION
 );
 
 CREATE TABLE `ServiceInventory`
@@ -159,13 +198,13 @@ CREATE TABLE `Ticket`
 	`destinationAirport`	VARCHAR(3)	NOT NULL,
 	`departTime`			VARCHAR(64) NOT NULL,
 	`arriveTime`			VARCHAR(64)	NOT NULL,
+	`seat_number`			VARCHAR(3)	NOT NULL,
+	
 	CONSTRAINT Ticket_PK PRIMARY KEY(`ticketID`),
 	
 	CONSTRAINT Ticket0_FK
 	FOREIGN KEY (`customer_id`) 
-	REFERENCES `Customer`(`customer_id`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION,
+	REFERENCES `Customer`(`customer_id`),
 	
 	CONSTRAINT Ticket1_FK
 	FOREIGN KEY (`flightID`) 
@@ -181,21 +220,15 @@ CREATE TABLE `Ticket`
 	
 	CONSTRAINT Ticket3_FK
 	FOREIGN KEY (`destinationAirport`) 
-	REFERENCES `Route`(`destinationAirport`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION,
+	REFERENCES `Route`(`destinationAirport`),
 	
 	CONSTRAINT Ticket4_FK
 	FOREIGN KEY (`departTime`) 
-	REFERENCES `Schedule`(`departTime`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION,
+	REFERENCES `Schedule`(`departTime`),
 	
 	CONSTRAINT Ticket5_FK
 	FOREIGN KEY (`arriveTime`) 
 	REFERENCES `Schedule`(`arriveTime`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION
 );
 
 
