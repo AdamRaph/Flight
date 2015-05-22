@@ -8,36 +8,31 @@ package controls;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import models.Customer;
-import models.Login;
+import models.Agentprofiles;
 
 /**
  *
  * @author Victor
  */
-public class RegisterController extends HttpServlet {
+public class profileaga extends HttpServlet {
+
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
@@ -55,7 +50,22 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        EntityManager em = emf.createEntityManager();
+        List<Agentprofiles> agents = em.createNamedQuery("Agentprofiles.findAll",Agentprofiles.class).getResultList();
         
+        PrintWriter out = response.getWriter(); 
+        out.println("<table class=\"form-control\">\n" +
+"                    <tr>\n" +
+"                        <th>Agency name</th>\n" +
+"                        <th>Modification</th>\n" +
+"                    </tr>");
+        for(Agentprofiles agent:agents){
+            out.println("<tr><td>" + agent.getTravelAgent()  +"</td><td><button onclick='changeAprofile(" + agent.getAgentId() + ")' type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#changeAP'>view and change</button></td></tr>");
+        }
+        
+        out.println(" \n" +
+"                </table>");
+        em.close();
     }
 
     /**
@@ -69,16 +79,21 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String role = "customer";
-        
-        Login lg = new Login(username,password,role);        
-        
-        try {      
-            utx.begin(); 
+        try {
+            String agance = request.getParameter("traname");
+            String phonedis = request.getParameter("dis");
+            String phonenum = request.getParameter("phnum");
+            String phone = phonedis + "-" + phonenum;
+            
+            String email = request.getParameter("aemail");
+            
+            Agentprofiles ap = new Agentprofiles();
+            utx.begin();
             EntityManager em = emf.createEntityManager();
-            em.persist(lg);
+            ap.setTravelAgent(agance);
+            ap.setPhone(phone);
+            ap.setEmail(email);
+            em.persist(ap);
             utx.commit();
             em.close();
         } catch (NotSupportedException ex) {
@@ -95,12 +110,8 @@ public class RegisterController extends HttpServlet {
             ex.printStackTrace();
         } catch (IllegalStateException ex) {
             ex.printStackTrace();
-        } 
+        }
         
-         HttpSession session = request.getSession(true);
-         session.setAttribute("username", username);
-         RequestDispatcher view = request.getRequestDispatcher("advanceinfo.jsp");
-         view.forward(request, response);
     }
 
     /**

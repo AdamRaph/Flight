@@ -77,9 +77,36 @@ public class LoginController extends HttpServlet {
             String role = result.get(0).getRole();
             HttpSession session = request.getSession(true);
             session.setAttribute("username", username);
-            session.setAttribute("role", role);
-            RequestDispatcher view = request.getRequestDispatcher("customer.jsp");
-            view.forward(request, response);
+            RequestDispatcher view = null;
+            
+            switch(role){
+                case "customer":
+                    session.setAttribute("role", role);
+                    view = request.getRequestDispatcher("customer.jsp");
+                    view.forward(request, response);
+                    break;
+                case "admin":
+                    view = request.getRequestDispatcher("admin.jsp");
+                    view.forward(request, response);
+                    break;
+                case "bookingmanager":
+                    view = request.getRequestDispatcher("bookingmanager.jsp");
+                    view.forward(request, response);
+                    break;
+                case "profilemanager":
+                    view = request.getRequestDispatcher("profilemanager.jsp");
+                    view.forward(request, response);
+                    break;
+                case "servicemanager":
+                    view = request.getRequestDispatcher("servicemanager.jsp");
+                    view.forward(request, response);
+                    break;
+                case "flightmanager":
+                    view = request.getRequestDispatcher("flightmanager.jsp");
+                    view.forward(request, response);
+                    break;
+            }
+            em.close();
         }
     }
 

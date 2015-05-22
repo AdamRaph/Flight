@@ -1,3 +1,82 @@
+function adminusecase(option){
+    switch(option){
+        case 0:
+            $('#sec1').hide();
+            $('#home,#sec0').show();
+            $('#m1').removeClass('list-group-item-info');
+            break;
+        case 1:
+            $('#home,#sec0').hide();
+            $('#sec1').show();
+            $('#m1').addClass('list-group-item-info');
+            break;
+    }
+}
+
+function fmusecase(option){
+    switch(option){
+        case 0:
+            $('#sec1,#sec2,sec3').hide();
+            $('#home,#sec0').show();
+            $('#m1,#m2,#m3').removeClass('list-group-item-info');
+            break;
+        case 1:
+            $('#home,#sec0,#sec2,sec3').hide();
+            $('#sec1').show();
+            $('#m1').addClass('list-group-item-info');
+            $('#m2,#m3').removeClass('list-group-item-info');
+            break;
+        case 2:
+            $('#home,#sec0,#sec1,sec3').hide();
+            $('#sec2').show();
+            $('#m2').addClass('list-group-item-info');
+            $('#m1,#m3').removeClass('list-group-item-info');
+            
+            $.get('profileaga',
+                function(response){
+                    $('#sec2').html((response))
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+            break;
+        case 3:
+            $('#home,#sec0,#sec1,sec2').hide();
+            $('#sec3').show();
+            $('#m3').addClass('list-group-item-info');
+            $('#m1,#m2').removeClass('list-group-item-info');
+            
+            $.get('profilecus',
+                function(response){
+                    $('#sec3').html((response))
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+            break;
+    }
+}
+
+function changeAprofile(AgID){
+    $.get('Aprofilecenter', {
+        AgentID : AgID
+       }, function(response) {
+            $('#AprofilePanel').html(response);
+    }).fail(function(){
+        alert( "Getting failed." );
+    });
+}
+
+function changeCprofile(cuID){
+    $.get('Cprofilecenter', {
+        CusID : cuID
+       }, function(response) {
+            $('#CprofilePanel').html(response);
+    }).fail(function(){
+        alert( "Getting failed." );
+    });
+}
+
 function cususecase(option){
     switch(option){
         case 0:
@@ -65,5 +144,39 @@ function checkform(){
 }
 
 function checkcard(){
+    var type = document.getElementById('cretype').value;
+    var num = document.getElementById('ccn').value;
+    var warning = document.getElementById('info');
     
+    if(type == "jcb" && num.length != 16){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+    }
+    else if(type == "americanexpress" && num.length != 15){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 15 digits<b></span>";
+    }
+    else if(type == "bankcard" && num.length != 16){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+    }
+    else if(type == "maestro" && num.length != 18){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 18 digits<b></span>";
+        return false;
+    }
+    else if(type == "visa-electron" && num.length != 16){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+    }
+    else if(type == "diners-club-carte-blanche" && num.length != 14){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 14 digits<b></span>";
+    }
+    else if(type == "switch" && num.length != 19){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 19 digits<b></span>";
+    }
+    else if(type == "solo" && num.length != 19){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 19 digits<b></span>";
+    }
+    else if(type == "china-unionpay" && num.length != 16){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+    }
+    else if(type == "laser" && num.length != 19){
+        warning.innerHTML = "<span class='label label-warning'><b>there should be 19 digits<b></span>";
+    }  
 }

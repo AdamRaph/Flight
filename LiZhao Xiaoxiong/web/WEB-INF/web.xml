@@ -12,17 +12,73 @@
         <servlet-name>CreateperRecord</servlet-name>
         <servlet-class>controls.CreateperRecord</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>updatepersonal</servlet-name>
+        <servlet-class>controls.updatepersonal</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>updatecard</servlet-name>
+        <servlet-class>controls.updatecard</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateManager</servlet-name>
+        <servlet-class>controls.CreateManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>profilecus</servlet-name>
+        <servlet-class>controls.profilecus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>profileaga</servlet-name>
+        <servlet-class>controls.profileaga</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Aprofilecenter</servlet-name>
+        <servlet-class>controls.Aprofilecenter</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Cusprofilecenter</servlet-name>
+        <servlet-class>controls.Cusprofilecenter</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
-        <url-pattern>/Register</url-pattern>
+        <url-pattern>/RegisterController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginController</servlet-name>
-        <url-pattern>/Login</url-pattern>
+        <url-pattern>/LoginController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CreateperRecord</servlet-name>
         <url-pattern>/CreateperRecord</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatepersonal</servlet-name>
+        <url-pattern>/updatepersonal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>updatecard</servlet-name>
+        <url-pattern>/updatecard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateManager</servlet-name>
+        <url-pattern>/CreateManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>profilecus</servlet-name>
+        <url-pattern>/profilecus</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>profileaga</servlet-name>
+        <url-pattern>/profileaga</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Aprofilecenter</servlet-name>
+        <url-pattern>/Aprofilecenter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Cusprofilecenter</servlet-name>
+        <url-pattern>/Cusprofilecenter</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

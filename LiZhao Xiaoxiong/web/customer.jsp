@@ -93,10 +93,9 @@
                 <div class="page-header">
                             <h1><%
                             HttpSession hs=request.getSession(true);  
-                            String user = (String)hs.getAttribute("username");
-                            String role = (String)hs.getAttribute("role");
+                            String user = (String)hs.getAttribute("username");                         
             
-                            out.println("Hello " + user + " login as " + role);
+                            out.println("Hello customer" + user);
                             %></h1>
                         </div> 
                     
@@ -133,35 +132,7 @@
                 </form>
             </div>
             <div id="sec2"  style="display: none;">
-                <form class="customerop form-horizontal" method="post">                   
-                    <label for="dep">department airport:</label>
-                    <select class="form-control" id="dep">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                    <label for="des">designation airport:</label>
-                    <select class="form-control" id="des">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                    </select>
-                    
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">Flight 1</label>
-                    </div>
-                    <div class="radio">
-                        <label><input type="radio" name="optradio">Flight 2</label>
-                    </div>
-                    <div class="radio disabled">
-                        <label><input type="radio" name="optradio" disabled>Flight 3</label>
-                    </div>
-                    
-                    <label><input type="date" class="form-control">choose date</label>
-                    <button class="btn btn-lg btn-primary btn-block " type="submit">book flight</button>
-                </form>
+                <jsp:include page="createbooking.jsp"/>   
             </div>
             <div id="sec3" style="display: none;">
                 <h4>Group A Sub 3</h4>
@@ -173,8 +144,9 @@
                 <h4>Group A Sub 5</h4>
             </div>
             <div id="sec6" style="display: none;">     
-                <jsp:include page="customerdetail.jsp"/>      
+                <jsp:include page="customerdetail.jsp"/>                   
             </div>
+            
             <div id="sec7" style="display: none;">
                 <jsp:include page="creditcard.jsp"/>  
             </div>

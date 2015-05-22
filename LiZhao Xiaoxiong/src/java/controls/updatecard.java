@@ -8,17 +8,12 @@ package controls;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +32,12 @@ import models.Login;
  *
  * @author Victor
  */
-public class RegisterController extends HttpServlet {
-    @PersistenceUnit(unitName="222PU")
+public class updatecard extends HttpServlet {
+@PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -69,38 +65,39 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String role = "customer";
+    try {
+        String cardtype = request.getParameter("cretype");
+        String cardnum = request.getParameter("ccn");
         
-        Login lg = new Login(username,password,role);        
+        HttpSession hs=request.getSession(true);
+        String user = (String)hs.getAttribute("username");
+        utx.begin();
+        EntityManager em = emf.createEntityManager();
+        Login lg = em.find(Login.class, user);
+        Customer cus = lg.getCustomer();
+        cus.setCreditCardType(cardtype);
+        cus.setCreditCardNum(cardnum);
         
-        try {      
-            utx.begin(); 
-            EntityManager em = emf.createEntityManager();
-            em.persist(lg);
-            utx.commit();
-            em.close();
-        } catch (NotSupportedException ex) {
-            ex.printStackTrace();
-        } catch (SystemException ex) {
-            ex.printStackTrace();
-        } catch (RollbackException ex) {
-            ex.printStackTrace();
-        } catch (HeuristicMixedException ex) {
-            ex.printStackTrace();
-        } catch (HeuristicRollbackException ex) {
-            ex.printStackTrace();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        } catch (IllegalStateException ex) {
-            ex.printStackTrace();
-        } 
-        
-         HttpSession session = request.getSession(true);
-         session.setAttribute("username", username);
-         RequestDispatcher view = request.getRequestDispatcher("advanceinfo.jsp");
-         view.forward(request, response);
+        em.persist(cus);
+        utx.commit();
+        em.close();
+        PrintWriter out = response.getWriter();
+        out.println("<label class='success'>update success</lable>");
+    } catch (NotSupportedException ex) {
+        ex.printStackTrace();
+    } catch (SystemException ex) {
+        ex.printStackTrace();
+    } catch (RollbackException ex) {
+        Logger.getLogger(updatecard.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (HeuristicMixedException ex) {
+        Logger.getLogger(updatecard.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (HeuristicRollbackException ex) {
+        Logger.getLogger(updatecard.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (SecurityException ex) {
+        Logger.getLogger(updatecard.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IllegalStateException ex) {
+        Logger.getLogger(updatecard.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }
 
     /**

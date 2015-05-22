@@ -109,11 +109,9 @@ CREATE TABLE `Customer`
 	ON DELETE CASCADE
 	ON UPDATE NO ACTION,
 	
-	CONSTRAINT Cust_FK2
+        CONSTRAINT Cust_FK2
 	FOREIGN KEY (`travel_agent`) 
 	REFERENCES `AgentProfiles`(`travel_agent`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION
 );
 
 CREATE TABLE `ServiceInventory`
@@ -124,3 +122,5 @@ CREATE TABLE `ServiceInventory`
 	`avaliablity`	VARCHAR(32)	NOT NULL,
 	CONSTRAINT Service_PK PRIMARY KEY(`service_id`)
 );
+
+INSERT INTO `login` VALUES ('ironman', 'tonystark', 'admin');

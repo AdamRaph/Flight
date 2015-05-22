@@ -17,7 +17,7 @@
           <a class="navbar-brand" href="#"></a>
         </div>
         
-        <form class="navbar-form navbar-right" method="post" action="Login">
+        <form class="navbar-form navbar-right" method="post" action="LoginController">
             <div class="form-group">
               <input type="text" placeholder="Username" name="username" class="form-control" required autofocus>
             </div>
@@ -36,7 +36,7 @@
 <div class="container">
         <h1><b>Welcome to our airline website!</b></h1>
         <p><b>If you are new to the system, please sign up below. If you are an existing user, please sign in above.</b></p>  
-       <form class="form-signup" method="post" action="Register" onSubmit="return checkform()">
+       <form class="form-signup" method="post" action="RegisterController" onSubmit="return checkform()">
         <h2 class="form-signup-heading">Sign Up Here</h2>              
         <label for="inputUsername" class="sr-only">Username</label>
         <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" required>

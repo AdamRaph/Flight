@@ -8,41 +8,30 @@ package controls;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import models.Customer;
-import models.Login;
 
 /**
  *
  * @author Victor
  */
-public class RegisterController extends HttpServlet {
+public class profilecus extends HttpServlet {
+
+
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -55,7 +44,20 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        EntityManager em = emf.createEntityManager();
+        List<Customer> cus = em.createNamedQuery("Customer.findAll",Customer.class).getResultList();
         
+        PrintWriter out = response.getWriter(); 
+        out.println("<table class=\"form-control\">\n" +
+"                    <tr>\n" +
+"                        <th>First Name</th>\n" +
+"                        <th>Last name</th>\n" +
+"                        <th>Modification</th>\n" +
+"                    </tr>");
+        for(Customer cu:cus){
+            out.println("<tr><td>" + cu.getFirstName() + "</td><td>" + cu.getLastName() +"</td><td><button onclick='changeCprofile(" + cu.getCustomerId() + ")' type='button' class='btn btn-info btn-lg' data-toggle='modal' data-target='#changeCu'>view and change</button></td></tr>");
+        }
+        out.println("</table>");
     }
 
     /**
@@ -69,38 +71,7 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String role = "customer";
         
-        Login lg = new Login(username,password,role);        
-        
-        try {      
-            utx.begin(); 
-            EntityManager em = emf.createEntityManager();
-            em.persist(lg);
-            utx.commit();
-            em.close();
-        } catch (NotSupportedException ex) {
-            ex.printStackTrace();
-        } catch (SystemException ex) {
-            ex.printStackTrace();
-        } catch (RollbackException ex) {
-            ex.printStackTrace();
-        } catch (HeuristicMixedException ex) {
-            ex.printStackTrace();
-        } catch (HeuristicRollbackException ex) {
-            ex.printStackTrace();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        } catch (IllegalStateException ex) {
-            ex.printStackTrace();
-        } 
-        
-         HttpSession session = request.getSession(true);
-         session.setAttribute("username", username);
-         RequestDispatcher view = request.getRequestDispatcher("advanceinfo.jsp");
-         view.forward(request, response);
     }
 
     /**

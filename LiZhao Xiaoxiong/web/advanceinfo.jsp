@@ -19,10 +19,11 @@
         <h1>Personal details</h1>
     </div>
     
-    <form class="form-group" method="post" action="" onSubmit="return checkform()">
+    <form class="form-group" method="post" action="CreateperRecord" onSubmit="return checkcard()">
         <div id="page1" class="col-md-12 col-xs-8">
             <label for="title" class="form-group">Title</label>
         <select id="title" name="title" class="form-group">
+            <option value="Mr">Mr</option>
             <option value="Ms">Ms</option>
             <option value="Dr">Dr</option>
             <option value="Rev">Rev</option>
@@ -129,6 +130,9 @@
                 </div>
             </fieldset>
         </div>
+        
+        <div id="info">               
+        </div> 
         
         <input type="submit" class="form-group" value="Create personal details">     
     </form>
