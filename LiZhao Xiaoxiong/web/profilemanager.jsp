@@ -87,7 +87,7 @@
                         <div class="modal-header">
                             Agent profile
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="height:350px">
                             <jsp:include page="AgPanel.jsp"/>
                         </div>
                         <div class="modal-footer">                        
@@ -99,9 +99,12 @@
             
             <div class="modal fade" id="changeCu" role="dialog" >
                 <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                    <div class="modal-content" style="width:750px">
+                        <div class="modal-header" style="height:350px">
                             Customer profile
+                            <div class="form-control " id="CprofilePanel">
+    
+                            </div>
                         </div>
                         <div class="modal-body">
                             <jsp:include page="CuPanel.jsp"/>

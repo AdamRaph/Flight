@@ -18,20 +18,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
-import models.Customer;
+import models.Serviceinventory;
 
 /**
  *
  * @author Victor
  */
-public class profilecus extends HttpServlet {
-
+public class GetIvlistII extends HttpServlet {
 
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -45,19 +44,17 @@ public class profilecus extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EntityManager em = emf.createEntityManager();
-        List<Customer> cus = em.createNamedQuery("Customer.findAll",Customer.class).getResultList();
+        List<Serviceinventory> sis = em.createNamedQuery("Serviceinventory.findAll", Serviceinventory.class).getResultList();
         
         PrintWriter out = response.getWriter(); 
-        out.println("<table class=\"table form-control\">\n" +
-"                    <tr>\n" +
-"                        <th>First Name</th>\n" +
-"                        <th>Last name</th>\n" +
-"                        <th>Modification</th>\n" +
-"                    </tr>");
-        for(Customer cu:cus){
-            out.println("<tr><td>" + cu.getFirstName() + "</td><td>" + cu.getLastName() +"</td><td><button onclick='changeCprofile(" + cu.getCustomerId() + ")' type='button' class='btn btn-info ' data-toggle='modal' data-target='#changeCu'>view and change</button></td></tr>");
+        out.println(
+    "    <tr>\n" +
+    "    <th>Change</th><th>Item</th><th>Cost</th><th>Availability</th>\n" +
+    "    </tr>");
+        
+        for(Serviceinventory si:sis){
+            out.println("<tr id='" + si.getServiceId() + "'><td><button onclick = 'changeItem(" + si.getServiceId() +")' type='button' class='btn btn-warning ' data-toggle='modal' data-target='#changeitem' >modify</button></td><td>" + si.getItem() + "</td><td id='" + si.getServiceId() + "c'>" + si.getCost() + "</td><td id='" + si.getServiceId() + "a'>" + si.getAvaliablity() + "</td></tr>");
         }
-        out.println("</table>");
     }
 
     /**

@@ -57,7 +57,7 @@ public class Aprofilecenter extends HttpServlet {
         Agentprofiles ap = em.find(Agentprofiles.class, agid);
         
         PrintWriter out = response.getWriter(); 
-        out.println("<input name='thisid type='text' value='" + agids +"' readonly >");
+        out.println("<input name='thisid' type='text' value='" + agids +"' readonly >");
         
         out.println("<label for=\"traname1\">Travel Agancy</label>"+
                 "<input value='" + ap.getTravelAgent() + "' class='form-control' type='text' name='traname1' id='traname1' required>");
@@ -68,7 +68,7 @@ public class Aprofilecenter extends HttpServlet {
         out.println("<label for=\"aemail1\">Email</label>"+
                 "<input value='" + ap.getEmail() + "' class='form-control' type='text' name='aemail1' id='aemail1' required>");
         
-        out.println("<input type=\"submit\" class=\"form-control\" value=\"Change Agancy Profile\">");
+        out.println("<input onclick='ajax5()' type=\"submit\" class=\"form-control btn-info\" value=\"Change Agancy Profile\">");
         em.close();
     }
 

@@ -40,6 +40,26 @@
         <servlet-name>Cusprofilecenter</servlet-name>
         <servlet-class>controls.Cusprofilecenter</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>createInventory</servlet-name>
+        <servlet-class>controls.createInventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetIvlist</servlet-name>
+        <servlet-class>controls.GetIvlist</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetIvlistII</servlet-name>
+        <servlet-class>controls.GetIvlistII</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteInventory</servlet-name>
+        <servlet-class>controls.deleteInventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>changeInventory</servlet-name>
+        <servlet-class>controls.changeInventory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/RegisterController</url-pattern>
@@ -79,6 +99,26 @@
     <servlet-mapping>
         <servlet-name>Cusprofilecenter</servlet-name>
         <url-pattern>/Cusprofilecenter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createInventory</servlet-name>
+        <url-pattern>/createInventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetIvlist</servlet-name>
+        <url-pattern>/GetIvlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetIvlistII</servlet-name>
+        <url-pattern>/GetIvlistII</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteInventory</servlet-name>
+        <url-pattern>/deleteInventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>changeInventory</servlet-name>
+        <url-pattern>/changeInventory</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -118,7 +118,7 @@ public class updatepersonal extends HttpServlet {
                 if(title != "")
                     cus.setTitle(title);
                 if(lastname != "")
-                    cus.setTitle(lastname);
+                    cus.setLastName(lastname);
                 if(firstname != "")
                     cus.setFirstName(firstname);
                 if(gender != "")

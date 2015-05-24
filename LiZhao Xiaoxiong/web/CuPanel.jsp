@@ -6,13 +6,14 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<form id="customerprofile" class="form-group">
-    <div class="form-control col-md-12 col-xs-8" id="CprofilePanel">
+<hr><br>
+<div id="page1" class="col-md-12 col-xs-8">
+<form id="customerprofile" class="form-group">   
+        <label for="thisuser" class="form-group">username(must same as oringinal one) </label>
+        <input id="thisuser" name="thisuser" type="text" class="form-group" required>
     
-    </div>
-        <div id="page1" class="col-md-12 col-xs-8">
             <label for="title" class="form-group">Title</label>
-        <select id="title" name="title2" class="form-group">
+        <select id="title" name="title2" class="form-group" required>
             <option value="Mr">Mr</option>
             <option value="Ms">Ms</option>
             <option value="Dr">Dr</option>
@@ -56,7 +57,7 @@
         <label for="ph">phone
         <div id="ph" class="col-md-6 col-xs-3">
             <div class="col-md-1 col-xs-1"> 
-                <input class="form-group" name="dis2" type="text" required>
+                <input class="form-group" name="dis2" type="text" required >
             </div>
             <div class="col-md-5 col-xs-2">
                 <input class="form-group" name="phnum2"  type="text" required>
@@ -75,7 +76,7 @@
         </div>
                    
         <div class="col-md-2 col-xs-1">
-            <label for="state" class="form-group"><input name="state2" id="state" class="form-group" type="text" >State</label>
+            <label for="state" class="form-group"><input name="state2" id="state" class="form-group" type="text" required>State</label>
         </div>
         
         <div class="col-md-2 col-xs-1">            
@@ -96,12 +97,15 @@
                 <label><input type="radio" name="passport2[]" required>Yes</label>
           </div>                 
         </div>
+        
+        <div class="col-md-12 col-xs-10">
+            <label for="flsta" class="form-group">Flight status<input name="flsta" id="flsta" class="form-group" type="text" ></label>
+            <label for="travel" class="form-group">Travel agent<input name="travel" id="travel" class="form-group" type="text" required></label>
         </div>
-    
-    <div class="col-md-12 col-xs-10">
-        <label for="flsta" class="form-group">Flight status<input name="flsta" id="flsta" class="form-group" type="text" required></label>
-        <label for="travel" class="form-group">Travel agent<input name="travel" id="travel" class="form-group" type="text" required></label>
-    </div>
-        <input type="submit" class="form-group" value="update for customer">     
+              
+        <div class="col-md-12 col-xs-10">
+            <input onclick="ajax6()" type="submit" class="form-group" value="update for customer">
+        </div>           
     </form>
+ </div>
 <script type="text/javascript" src="js/ajax6.js"></script>

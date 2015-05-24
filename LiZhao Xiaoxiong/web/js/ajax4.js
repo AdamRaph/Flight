@@ -1,7 +1,7 @@
-$(document).ready(function(){
+function ajax4(){
     $('#createaga').submit(function(){
           
-        $.post('profileaga', $(this).serialize(), function(data){          
+        $.post('profileaga', $('#createaga').serialize(), function(data){          
             alert("successfull create profile for an angancy");
              
         }).fail(function() {         
@@ -10,6 +10,6 @@ $(document).ready(function(){
         });
         return false; 
     });
-});
+}
 
 

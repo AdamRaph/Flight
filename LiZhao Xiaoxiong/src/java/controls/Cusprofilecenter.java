@@ -31,6 +31,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import models.Agentprofiles;
 import models.Customer;
+import models.Login;
 
 /**
  *
@@ -62,25 +63,25 @@ public class Cusprofilecenter extends HttpServlet {
         
         Customer cus = em.find(Customer.class, cuID);
         
-        PrintWriter out = response.getWriter(); 
-        
-        out.println("<input name='thiscusid' type='text' value='" + cuIDs +"' readonly >");
+        PrintWriter out = response.getWriter();      
         
         out.println("<label for='ba'>basic information</label>");
-        out.println("<table id='ba' class = 'form-control'>");
-        out.println("<tr><th>Title</th><th>Name</th><th>Gender</th><th>DOB</th>");
-        out.println("<tr><td>" + cus.getTitle() +"</td><td>" + cus.getFirstName() + " " + cus.getLastName() +"</td><td>" + cus.getGender() +"</td><td>" + cus.getDob() +"</td></tr>");
-        out.println("</table>");
+        out.println("<table id='ba' class = 'table form-control'>");
+        out.println("<tr><th>Username</th><th>Title</th><th>Name</th><th>Gender</th><th>DOB</th></tr>");
+        out.println("<tr><td>" + cus.getUsername().getUsername() +"</td><td>" + cus.getTitle() +"</td><td>" + cus.getFirstName() + " " + cus.getLastName() +"</td><td>" + cus.getGender() +"</td><td>" + cus.getDob() +"</td></tr>");
+        out.println("</table><br><br>");
         
         out.println("<label for='contact'>peersonal contact information</label>");
-        out.println("<table id='contact' class = 'form-control'>");
+        out.println("<table id='contact' class = 'table form-control'>");
         out.println("<tr><th>Phone</th><th>Email</th><th>street_address</th><th>city</th><th>state</th><th>country</th></tr>");
-        out.println("<tr><td>" + cus.getPhone() +"</td><td>" + cus.getEmail() + " " + cus.getStreetAddress() +"</td><td>" + cus.getCity() +"</td><td>" + cus.getState() +"</td><td>" + cus.getCountry() +"</td></tr>");
+        out.println("<tr><td>" + cus.getPhone() +"</td><td>" + cus.getEmail() + "</td><td> " + cus.getStreetAddress() +"</td><td>" + cus.getCity() +"</td><td>" + cus.getState() +"</td><td>" + cus.getCountry() +"</td></tr>");
+        out.println("</table><br><br>");
         
         out.println("<label for='other'>other information</label>");
-        out.println("<table id='other' class = 'form-control'>");
-        out.println("<tr><th>passport_holder</th><th>flight_status</th><th>travel_agent</th>");
-        out.println("<tr><td>" + cus.getPassportHolder() +"</td><td>" + cus.getFlightStatus() + " " + cus.getTravelAgent()  +"</td></tr>");
+        out.println("<table id='other' class = 'table form-control'>");
+        out.println("<tr><th>passport_holder</th><th>flight_status</th><th>travel_agent</th><tr>");
+        out.println("<tr><td>" + cus.getPassportHolder() +"</td><td>" + cus.getFlightStatus() + "</td><td>" + cus.getTravelAgent()  +"</td></tr>");
+        out.println("</table>");
         em.close();
     }
 
@@ -96,40 +97,47 @@ public class Cusprofilecenter extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String cusids = request.getParameter("thiscusid");
+            String user = request.getParameter("thisuser");
             
-            String title = request.getParameter("title");
-            String lastname = request.getParameter("lname");
-            String firstname = request.getParameter("fname");
-            String genders[] = request.getParameterValues("gender[]");
+            String title = request.getParameter("title2");
+            String lastname = request.getParameter("lname2");
+            String firstname = request.getParameter("fname2");
+            String genders[] = request.getParameterValues("gender2[]");
             
-            String gender;
-            if(genders[0] != ""){
-                gender = genders[0];
+            String gender = "";
+            if(genders !=  null){
+                if(genders[0] != ""){
+                    gender = genders[0];
+                }
+                else{
+                    gender = genders[1];
+                }
             }
-            else{
-                gender = genders[1];
-            }
             
-            String year = request.getParameter("year");
-            String month = request.getParameter("month");
-            String day = request.getParameter("day");
-            String dobs = year + "-" + month + "-" + day;
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Date dob = null;
+            String year = request.getParameter("year2");
+            String month = request.getParameter("month2");
+            String day = request.getParameter("day2");
+            if((year != null && month != null && day != null)&&(year != "" && month != "" && day != "")){
+                String dobs = year + "-" + month + "-" + day;
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                
+
+                dob = df.parse(dobs);
+            }
             
-            dob = df.parse(dobs);
+
             
-             String disphone = request.getParameter("dis");
-                String phonenum = request.getParameter("phnum");
+             String disphone = request.getParameter("dis2");
+                String phonenum = request.getParameter("phnum2");
                 String phone = disphone + "-" + phonenum;
                 
-                String email = request.getParameter("email");
-                String street = request.getParameter("sadd");
-                String state = request.getParameter("state");
-                String city = request.getParameter("city");
-                String country = request.getParameter("cou");
-                String passport[] = request.getParameterValues("passport[]");
+                String email = request.getParameter("email2");
+                String street = request.getParameter("sadd2");
+                String state = request.getParameter("state2");
+                String city = request.getParameter("city2");
+                String country = request.getParameter("cou2");
+                String passport[] = request.getParameterValues("passport2[]");
                 boolean pholder = false;
                 if(passport == null ||passport[0] != "")
                     pholder = false;
@@ -138,45 +146,47 @@ public class Cusprofilecenter extends HttpServlet {
                 
                 String flightstatus = request.getParameter("flsta");
                 String travel = request.getParameter("travel");
-                
-                EntityManager em = emf.createEntityManager();
+   
+                //Customer cus = em.find(Customer.class, Integer.parseInt(cusids));
         
-                Customer cus = em.find(Customer.class, Integer.parseInt("cusids"));
-                
                 utx.begin();
-                if(title != "")
+                EntityManager em = emf.createEntityManager();
+                Login lg = em.find(Login.class, user);
+                    Customer cus = lg.getCustomer();
                     cus.setTitle(title);
-                if(lastname != "")
-                    cus.setTitle(lastname);
-                if(firstname != "")
+                
+                    cus.setLastName(lastname);
+               
                     cus.setFirstName(firstname);
-                if(gender != "")
+                
                     cus.setGender(gender);
-                if(dob != null)
+                
                     cus.setDob(dob);
-                if(phone != "")
+                
                     cus.setPhone(phone);
-                if(email != "")
+                
                     cus.setEmail(email);
-                if(street != "")
+                
                     cus.setStreetAddress(street);
-                if(state != "")
+                
                     cus.setState(state);
-                if(city != "")
+                
                     cus.setCity(city);
-                if(country != "")
+                
                     cus.setCountry(country);
-                if(pholder != false)
+                
                     cus.setPassportHolder(pholder);
-                if(flightstatus != "")
+                
                     cus.setFlightStatus(flightstatus);
-                if(travel != ""){
-                    List<Agentprofiles> aps = em.createNamedQuery("Agentprofiles.findByTravelAgent", Agentprofiles.class).setParameter(1, travel).getResultList();
-                    cus.setTravelAgent(aps.get(0));
-                    em.persist(cus);
-                    utx.commit();
-                    em.close();
-                }
+                
+                    if(!travel.equals("none")){
+                        List<Agentprofiles> aps = em.createNamedQuery("Agentprofiles.findByTravelAgent", Agentprofiles.class).setParameter("travelAgent", travel).getResultList();
+                        cus.setTravelAgent(aps.get(0));
+                    }                  
+                
+                em.persist(cus);
+                utx.commit();
+                em.close();
                 
         } catch (ParseException ex) {
             ex.printStackTrace();

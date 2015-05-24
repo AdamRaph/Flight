@@ -8,21 +8,21 @@
 <!DOCTYPE html>
 <form class="form-control" id="createaga">
     <label for="traname">Travel Agancy</label>
-    <input class="form-control" type="text" name="traname" id="traname" required>
+    <input class="form-control" type="text" name="traname" id="traname" required /><br>
     
     <label for="aph">phone
-        <div id="aph" class="col-md-6 col-xs-3">
-            <div class="col-md-1 col-xs-1"> 
-                <input class="form-group" name="dis" type="text" required>
+        <div id="aph" class="col-md-10 col-xs-6">
+            <div class="col-md-3 col-xs-2"> 
+                <input class="form-control" name="dis" type="text" required>
             </div>
-            <div class="col-md-5 col-xs-2">
-                <input class="form-group" name="phnum"  type="text" required>
+            <div class="col-md-6 col-xs-3">
+                <input class="form-control" name="phnum"  type="text" required>
             </div>           
-        </div></label>
+        </div></label><br>
     
     <label for="aemail">Email</label>
     <input id="aemail" class="form-control" type="email" name="aemail" required>
     
-    <input type="submit" class="form-control" value="Create Agancy">
+    <input onclick="ajax4()" type="submit" class="form-control btn-info" value="Create Agancy">
 </form>
 <script type="text/javascript" src="js/ajax4.js"></script>

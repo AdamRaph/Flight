@@ -13,42 +13,87 @@ function adminusecase(option){
     }
 }
 
+function smusecase(option){
+    switch(option){
+        case 0:
+            $('#sec1,#sec2').hide();
+            $('#home,#sec0').show();
+            $('#m1,#m2').removeClass('list-group-item-info');
+            break;
+        case 1:
+            $('#home,#sec0,#sec2').hide();
+            $('#sec1').show();
+            $('#m1').addClass('list-group-item-info');
+            $('#m2').removeClass('list-group-item-info');
+            getinventorylist1();
+            break;
+        case 2:
+            $('#home,#sec0,#sec1').hide();
+            $('#sec2').show();
+            $('#m2').addClass('list-group-item-info');
+            $('#m1').removeClass('list-group-item-info');    
+            getinventorylist2();
+            break;
+        
+    }
+}
+
+function getinventorylist1(){
+    $.get('GetIvlist',
+                function(response){
+                    $('#listallin').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function getinventorylist2(){
+    $.get('GetIvlistII',
+                function(response){
+                    $('#listallinII').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
 function fmusecase(option){
     switch(option){
         case 0:
-            $('#sec1,#sec2,sec3').hide();
+            $('#sec1,#sec2,#sec3').hide();
             $('#home,#sec0').show();
             $('#m1,#m2,#m3').removeClass('list-group-item-info');
             break;
         case 1:
-            $('#home,#sec0,#sec2,sec3').hide();
+            $('#home,#sec0,#sec2,#sec3').hide();
             $('#sec1').show();
             $('#m1').addClass('list-group-item-info');
             $('#m2,#m3').removeClass('list-group-item-info');
             break;
         case 2:
-            $('#home,#sec0,#sec1,sec3').hide();
+            $('#home,#sec0,#sec1,#sec3').hide();
             $('#sec2').show();
             $('#m2').addClass('list-group-item-info');
             $('#m1,#m3').removeClass('list-group-item-info');
             
             $.get('profileaga',
                 function(response){
-                    $('#sec2').html((response))
+                    $('#sec2').html(response);
                 }
             ).fail(function(){
                 alert( "Getting failed." );
             });
             break;
         case 3:
-            $('#home,#sec0,#sec1,sec2').hide();
+            $('#home,#sec0,#sec1,#sec2').hide();
             $('#sec3').show();
             $('#m3').addClass('list-group-item-info');
             $('#m1,#m2').removeClass('list-group-item-info');
             
             $.get('profilecus',
                 function(response){
-                    $('#sec3').html((response))
+                    $('#sec3').html(response);
                 }
             ).fail(function(){
                 alert( "Getting failed." );
@@ -57,24 +102,46 @@ function fmusecase(option){
     }
 }
 
+function confirmremove(itemID){
+    document.getElementById("ditem").value = itemID;
+}
+
+function changeItem(itemID){
+    var costid = itemID + "c";
+    var availid = itemID + "a";
+    
+    document.getElementById("chitem").value = itemID;
+    document.getElementById("ccost").value = document.getElementById(costid).innerHTML;
+    var selectval = document.getElementById(availid).innerHTML;
+    $("#cavail option[value='" + selectval  + "']").attr("selected","selected");
+}
+
 function changeAprofile(AgID){
-    $.get('Aprofilecenter', {
-        AgentID : AgID
-       }, function(response) {
-            $('#AprofilePanel').html(response);
-    }).fail(function(){
-        alert( "Getting failed." );
-    });
+    var onetime = true;
+    if(onetime == true){
+        $.get('Aprofilecenter', {
+            AgentID : AgID
+           }, function(response) {
+                $('#AprofilePanel').html(response);
+        }).fail(function(){
+            alert( "Getting failed." );
+        });
+        onetime = false;
+    }
 }
 
 function changeCprofile(cuID){
-    $.get('Cprofilecenter', {
-        CusID : cuID
-       }, function(response) {
-            $('#CprofilePanel').html(response);
-    }).fail(function(){
-        alert( "Getting failed." );
-    });
+    var onetime = true;
+    if(onetime == true){
+        $.get('Cusprofilecenter', {
+            CusID : cuID
+           }, function(response) {
+                $('#CprofilePanel').html(response);
+        }).fail(function(){
+            alert( "Getting failed." );
+        });
+        onetime = false;
+    }
 }
 
 function cususecase(option){

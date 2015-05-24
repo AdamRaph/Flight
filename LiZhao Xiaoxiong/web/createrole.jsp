@@ -24,7 +24,7 @@
         <option class="form-control" value="flightmanager">flight manager</option>
     </select><br>
     
-    <input type="submit" class="form-group" value="assign role for manager"/> 
+    <input type="submit" onclick="ajax3()" class="form-group" value="assign role for manager"/> 
     </fieldset>
 </form>
 <script type="text/javascript" src="js/ajax3.js"></script>

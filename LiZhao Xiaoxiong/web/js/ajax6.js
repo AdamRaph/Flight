@@ -1,15 +1,19 @@
-$(document).ready(function(){
+function ajax6(){
+    var onetime = true;
     $('#customerprofile').submit(function(){
-          
-        $.post('Cusprofilecenter', $(this).serialize(), function(data){          
-            alert("successfull create profile for an angancy");
+        if(onetime == true){
+        $.post('Cusprofilecenter', $('#customerprofile').serialize(), function(data){       
+            onetime = false;
+                alert("successfull modify profile for an customer");
              
-        }).fail(function() {         
+        }).fail(function() {  
+            onetime = false;
             alert( "Posting failed." );
              
         });
-        return false; 
+        return false;
+        }
     });
-});
+}
 
 

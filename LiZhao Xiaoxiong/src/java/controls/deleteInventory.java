@@ -8,7 +8,6 @@ package controls;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -25,19 +24,19 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import models.Agentprofiles;
+import models.Serviceinventory;
 
 /**
  *
  * @author Victor
  */
-public class profileaga extends HttpServlet {
+public class deleteInventory extends HttpServlet {
 
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -50,22 +49,7 @@ public class profileaga extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
-        List<Agentprofiles> agents = em.createNamedQuery("Agentprofiles.findAll",Agentprofiles.class).getResultList();
         
-        PrintWriter out = response.getWriter(); 
-        out.println("<table class=\"table form-control\">\n" +
-"                    <tr>\n" +
-"                        <th>Agency name</th>\n" +
-"                        <th>Modification</th>\n" +
-"                    </tr>");
-        for(Agentprofiles agent:agents){
-            out.println("<tr><td>" + agent.getTravelAgent()  +"</td><td><button onclick='changeAprofile(" + agent.getAgentId() + ")' type='button' class='btn btn-info ' data-toggle='modal' data-target='#changeAP'>view and change</button></td></tr>");
-        }
-        
-        out.println(" \n" +
-"                </table>");
-        em.close();
     }
 
     /**
@@ -80,38 +64,29 @@ public class profileaga extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String agance = request.getParameter("traname");
-            String phonedis = request.getParameter("dis");
-            String phonenum = request.getParameter("phnum");
-            String phone = phonedis + "-" + phonenum;
+            String inid = request.getParameter("ditem");
             
-            String email = request.getParameter("aemail");
-            
-            Agentprofiles ap = new Agentprofiles();
             utx.begin();
             EntityManager em = emf.createEntityManager();
-            ap.setTravelAgent(agance);
-            ap.setPhone(phone);
-            ap.setEmail(email);
-            em.persist(ap);
+            Serviceinventory si = em.find(Serviceinventory.class, Integer.parseInt(inid));
+            em.remove(si);
             utx.commit();
             em.close();
         } catch (NotSupportedException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SystemException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RollbackException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HeuristicMixedException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (HeuristicRollbackException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SecurityException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalStateException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(deleteInventory.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     /**
