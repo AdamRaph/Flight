@@ -30,6 +30,7 @@ CREATE TABLE `Route` (
 	`destinationAirport`	VARCHAR(3)	NOT NULL,
 	`codeShare`				VARCHAR(1),
 	`stops`					INTEGER(1),
+	`InternationalFlight`	BOOLEAN,
 	CONSTRAINT Route_PK PRIMARY KEY(`routeID`)
 );
 
@@ -109,8 +110,10 @@ CREATE TABLE `Schedule`
 	`flightID`		VARCHAR(8)	NOT NULL,
 	`planeID`		INTEGER(4)	NOT NULL,
 	`routeID`		INTEGER(4)	NOT NULL,
-	`departTime`	VARCHAR(64) NOT NULL,
-	`arriveTime`	VARCHAR(64)	NOT NULL,
+	`departDate		DATE		NOT NULL,
+	`arriveDate		DATE		NOT NULL,
+	`departTime`	TIME 		NOT NULL,
+	`arriveTime`	TIME		NOT NULL,
 	
 	CONSTRAINT Schedule_PK PRIMARY KEY(`scheduleID`),
 	CONSTRAINT Flight_ID UNIQUE (`flightID`),
@@ -199,6 +202,7 @@ CREATE TABLE `Ticket`
 	`departTime`			VARCHAR(64) NOT NULL,
 	`arriveTime`			VARCHAR(64)	NOT NULL,
 	`seat_number`			VARCHAR(3)	NOT NULL,
+	`payed`					BOOLEAN		NOT NULL,
 	
 	CONSTRAINT Ticket_PK PRIMARY KEY(`ticketID`),
 	
