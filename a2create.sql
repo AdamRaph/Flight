@@ -57,33 +57,33 @@ CREATE TABLE `Airplane`
 	`economyClass`	INTEGER(3)		NOT NULL,
 	`total`			INTEGER(3)		NOT NULL,
 
-	CONSTRAINT Seat_PK PRIMARY KEY(`PlaneID`),
+	CONSTRAINT Plane_PK PRIMARY KEY(`PlaneID`),
 
-	CONSTRAINT Seat0_FK
+	CONSTRAINT Plane0_FK
 	FOREIGN KEY (`aircraft`) 
-	REFERENCES `Airplane`(`aircraft`)
+	REFERENCES `Fleet`(`aircraft`)
 	ON DELETE CASCADE
 	ON UPDATE NO ACTION,
 	
-	CONSTRAINT Seat1_FK
+	CONSTRAINT Plane1_FK
 	FOREIGN KEY (`firstClass`) 
-	REFERENCES `Airplane`(`firstClass`),
+	REFERENCES `Fleet`(`firstClass`),
 	
-	CONSTRAINT Seat2_FK
+	CONSTRAINT Plane2_FK
 	FOREIGN KEY (`businessClass`) 
-	REFERENCES `Airplane`(`businessClass`),
+	REFERENCES `Fleet`(`businessClass`),
 	
-	CONSTRAINT Seat3_FK
+	CONSTRAINT Plane3_FK
 	FOREIGN KEY (`premiumClass`) 
-	REFERENCES `Airplane`(`premiumClass`),
+	REFERENCES `Fleet`(`premiumClass`),
 	
-	CONSTRAINT Seat4_FK
+	CONSTRAINT Plane4_FK
 	FOREIGN KEY (`economyClass`) 
-	REFERENCES `Airplane`(`economyClass`),
+	REFERENCES `Fleet`(`economyClass`),
 	
-	CONSTRAINT Seat5_FK
+	CONSTRAINT Plane5_FK
 	FOREIGN KEY (`total`) 
-	REFERENCES `Airplane`(`total`)
+	REFERENCES `Fleet`(`total`)
 );
 
 CREATE TABLE `Seat`
@@ -92,14 +92,14 @@ CREATE TABLE `Seat`
 	`seat_class`	VARCHAR(16) 	NOT NULL,
 	`seat_number`	VARCHAR(3)		NOT NULL,
 	`occupied`	BOOLEAN			NOT NULL,
-	`fleetID` 	INTEGER(4)		NOT NULL,
+	`PlaneID` 	INTEGER(4)		NOT NULL,
 	
 	CONSTRAINT Seat_PK PRIMARY KEY(`seat_id`),
 	CONSTRAINT Seat_NUM UNIQUE (`seat_number`),
 	
 	CONSTRAINT Seat_FK
-	FOREIGN KEY (`fleetID`) 
-	REFERENCES `Airplane`(`fleetID`)
+	FOREIGN KEY (`PlaneID`) 
+	REFERENCES `Airplane`(`PlaneID`)
 	ON DELETE CASCADE
 	ON UPDATE NO ACTION
 );
