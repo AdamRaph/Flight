@@ -197,6 +197,7 @@ CREATE TABLE `Ticket`
 	`ticketID`				INTEGER(4)	NOT NULL AUTO_INCREMENT,	
 	`customer_id` 			INTEGER(4)	NOT NULL,
 	`flightID`				INTEGER(4)	NOT NULL,
+	`seat_number`			VARCHAR(3)	NOT NULL,
 	`sourceAirport`			VARCHAR(3)	NOT NULL,
 	`destinationAirport`	VARCHAR(3)	NOT NULL,
 	`departTime`			VARCHAR(64) NOT NULL,
@@ -232,7 +233,11 @@ CREATE TABLE `Ticket`
 	
 	CONSTRAINT Ticket5_FK
 	FOREIGN KEY (`arriveTime`) 
-	REFERENCES `Schedule`(`arriveTime`)
+	REFERENCES `Schedule`(`arriveTime`),
+	
+	CONSTRAINT Ticket6_FK
+	FOREIGN KEY (`seat_number`)
+	REFERENCES `Seat`(`seat_number`)
 );
 
 
