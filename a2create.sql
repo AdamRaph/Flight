@@ -32,17 +32,24 @@ CREATE TABLE `Route` (
 	`stops`					INTEGER(1),
 	`InternationalFlight`	BOOLEAN,
 	CONSTRAINT Route_PK PRIMARY KEY(`routeID`)
+	
+	CONSTRAINT Route0_FK
+	FOREIGN KEY (`sourceAirport`) 
+	REFERENCES `Airport`(`IATA`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION,
+	
+	CONSTRAINT Route1_FK
+	FOREIGN KEY (`destinationAirport`) 
+	REFERENCES `Airport`(`IATA`)
+	ON DELETE CASCADE
+	ON UPDATE NO ACTION
 );
 
 CREATE TABLE `Fleet` (
 	`fleetID`		INTEGER(4)		NOT NULL	AUTO_INCREMENT,
 	`aircraft`		VARCHAR(32)		NOT NULL,
 	`inService`		INTEGER(2)		NOT NULL,
-	`firstClass`	INTEGER(2)		NOT NULL,
-	`businessClass`	INTEGER(2)		NOT NULL,
-	`premiumClass`	INTEGER(2)		NOT NULL,
-	`economyClass`	INTEGER(3)		NOT NULL,
-	`total`			INTEGER(3)		NOT NULL,
 	`seatsPerRow` 	INTEGER(2)		NOT NULL,
 	CONSTRAINT Fleet_PK PRIMARY KEY(`fleetID`)
 );
@@ -64,44 +71,6 @@ CREATE TABLE `Airplane`
 	REFERENCES `Fleet`(`aircraft`)
 	ON DELETE CASCADE
 	ON UPDATE NO ACTION,
-	
-	CONSTRAINT Plane1_FK
-	FOREIGN KEY (`firstClass`) 
-	REFERENCES `Fleet`(`firstClass`),
-	
-	CONSTRAINT Plane2_FK
-	FOREIGN KEY (`businessClass`) 
-	REFERENCES `Fleet`(`businessClass`),
-	
-	CONSTRAINT Plane3_FK
-	FOREIGN KEY (`premiumClass`) 
-	REFERENCES `Fleet`(`premiumClass`),
-	
-	CONSTRAINT Plane4_FK
-	FOREIGN KEY (`economyClass`) 
-	REFERENCES `Fleet`(`economyClass`),
-	
-	CONSTRAINT Plane5_FK
-	FOREIGN KEY (`total`) 
-	REFERENCES `Fleet`(`total`)
-);
-
-CREATE TABLE `Seat`
-(
-	`seat_id`		INTEGER(4)		NOT NULL	AUTO_INCREMENT,
-	`seat_class`	VARCHAR(16) 	NOT NULL,
-	`seat_number`	VARCHAR(3)		NOT NULL,
-	`occupied`	BOOLEAN			NOT NULL,
-	`PlaneID` 	INTEGER(4)		NOT NULL,
-	
-	CONSTRAINT Seat_PK PRIMARY KEY(`seat_id`),
-	CONSTRAINT Seat_NUM UNIQUE (`seat_number`),
-	
-	CONSTRAINT Seat_FK
-	FOREIGN KEY (`PlaneID`) 
-	REFERENCES `Airplane`(`PlaneID`)
-	ON DELETE CASCADE
-	ON UPDATE NO ACTION
 );
 
 CREATE TABLE `Schedule` 
