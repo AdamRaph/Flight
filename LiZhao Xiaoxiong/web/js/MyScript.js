@@ -13,6 +13,174 @@ function adminusecase(option){
     }
 }
 
+function flmusecase(option){
+    switch(option){
+        case 0:
+            $('#sec1,#sec2,#sec3,#sec4,#sec5,#sec6').hide();
+            $('#home,#sec0').show();
+            $('#m1,#m2,#m3,#m4,#m5,#m6').removeClass('list-group-item-info');
+            break;
+        case 1:
+            $('#home,#sec0,#sec2,#sec3,#sec4,#sec5,#sec6').hide();
+            $('#sec1').show();
+            $('#m2,#m3,#m4,#m5,#m6').removeClass('list-group-item-info');
+            $('#m1').addClass('list-group-item-info');
+            getplanelistforair();
+            break;
+        case 2:
+            $('#home,#sec0,#sec1,#sec3,#sec4,#sec5,#sec6').hide();
+            $('#sec2').show();
+            $('#m1,#m3,#m4,#m5,#m6').removeClass('list-group-item-info');
+            $('#m2').addClass('list-group-item-info');
+            choosefromairport();
+            break;
+        case 3:
+            $('#home,#sec0,#sec1,#sec2,#sec4,#sec5,#sec6').hide();
+            $('#sec3').show();
+            $('#m1,#m2,#m4,#m5,#m6').removeClass('list-group-item-info');
+            $('#m3').addClass('list-group-item-info');
+            airportlistforfleet();
+            break;
+        case 4:
+            $('#home,#sec0,#sec1,#sec2,#sec3,#sec5,#sec6').hide();
+            $('#sec4').show();
+            $('#m1,#m2,#m3,#m5,#m6').removeClass('list-group-item-info');
+            $('#m4').addClass('list-group-item-info');
+            break;
+        case 5:
+            $('#home,#sec0,#sec1,#sec2,#sec3,#sec4,#sec6').hide();
+            $('#sec5').show();
+            $('#m1,#m2,#m3,#m4,#m6').removeClass('list-group-item-info');
+            $('#m5').addClass('list-group-item-info');
+            break;
+        case 6:
+            $('#home,#sec0,#sec1,#sec2,#sec3,#sec4,#sec5').hide();
+            $('#sec6').show();
+            $('#m1,#m2,#m3,#m4,#m5').removeClass('list-group-item-info');
+            $('#m6').addClass('list-group-item-info');
+            listroute();
+            break;
+       
+    }
+}
+
+function listroute(){
+    $.get('delschedule'
+       , function(response) {
+            $("scheduleforD").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function viewplane(fleetid){
+    $.get('newplane', {
+        fleetid : fleetid
+       }, function(response) {
+            $("cuplanelist").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function addthisplane(pid){
+    document.getElementById("Chopid").value = pid;
+}
+
+function renderroute(rid){
+    document.getElementById("Choroute").value = rid;
+    var sourceA = document.getElementById(rid + "s").innerHTML;
+    
+    $.get('planelistforsch', {
+        sourceA : sourceA
+       }, function(response) {
+            $("takeoffplane").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function getrouteforch(){
+    $.get('newschedule',
+                function(response){
+                    $('#routelistofsch').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function renderfid(fid){
+    document.getElementById("choosing3").value = fid
+}
+
+function getfleetlist(){
+    $.get('newfleet',
+                function(response){
+                    $('#fleetlist').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function airportlistforfleet(){
+    $.get('ChooseAirportForfleet',
+                function(response){
+                    $('#airportlistF').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function choosefromairport(){
+    $.get('ChooseAirportForRoute',
+                function(response){
+                    $('#airportlistR').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function getiata(IATA){
+    document.getElementById("choosing").value = IATA;
+}
+
+function getiataII(IATA){
+    document.getElementById("choosing2").value = IATA;
+}
+
+function chooseairport(option){
+    var sou = document.getElementById();
+    var des = document.getElementById();
+    var iata = document.getElementById("choosing").value
+    
+    switch(option){
+        case 1:
+            sou.value = iata;
+            break;
+        case 2:
+            des.value = iata;
+            break;
+    }
+}
+
+function confirmremoveair(iata){
+    document.getElementById("dairportiata").value = iata;
+}
+
+function getplanelistforair(){
+    $.get('newAir',
+                function(response){
+                    $('#planelist').html(response);
+                }
+            ).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
 function smusecase(option){
     switch(option){
         case 0:
@@ -168,13 +336,7 @@ function cususecase(option){
             $('#m3').addClass('list-group-item-info');
             $('#m1,#m2,#m4,#m5,#m6,#m7').removeClass('list-group-item-info');
             $('#sec3').show();
-            break;
-        case 4:
-            $('#home,#sec0,#sec1,#sec2,#sec3,#sec5,#sec6,#sec7').hide();
-            $('#m4').addClass('list-group-item-info');
-            $('#m1,#m2,#m3,#m5,#m6,#m7').removeClass('list-group-item-info');
-            $('#sec4').show();
-            break;
+            break;       
         case 5:
             $('#home,#sec0,#sec1,#sec2,#sec3,#sec4,#sec6,#sec7').hide();
             $('#m5').addClass('list-group-item-info');

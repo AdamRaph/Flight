@@ -60,6 +60,46 @@
         <servlet-name>changeInventory</servlet-name>
         <servlet-class>controls.changeInventory</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>newAir</servlet-name>
+        <servlet-class>controls.newAir</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteAir</servlet-name>
+        <servlet-class>controls.deleteAir</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChooseAirportForRoute</servlet-name>
+        <servlet-class>controls.ChooseAirportForRoute</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>createroute</servlet-name>
+        <servlet-class>controls.createroute</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChooseAirportForfleet</servlet-name>
+        <servlet-class>controls.ChooseAirportForfleet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newfleet</servlet-name>
+        <servlet-class>controls.newfleet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newplane</servlet-name>
+        <servlet-class>controls.newplane</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>newschedule</servlet-name>
+        <servlet-class>controls.newschedule</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>planelistforsch</servlet-name>
+        <servlet-class>controls.planelistforsch</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>delschedule</servlet-name>
+        <servlet-class>controls.delschedule</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/RegisterController</url-pattern>
@@ -119,6 +159,46 @@
     <servlet-mapping>
         <servlet-name>changeInventory</servlet-name>
         <url-pattern>/changeInventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newAir</servlet-name>
+        <url-pattern>/newAir</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteAir</servlet-name>
+        <url-pattern>/deleteAir</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChooseAirportForRoute</servlet-name>
+        <url-pattern>/ChooseAirportForRoute</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>createroute</servlet-name>
+        <url-pattern>/createroute</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChooseAirportForfleet</servlet-name>
+        <url-pattern>/ChooseAirportForfleet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newfleet</servlet-name>
+        <url-pattern>/newfleet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newplane</servlet-name>
+        <url-pattern>/newplane</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>newschedule</servlet-name>
+        <url-pattern>/newschedule</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>planelistforsch</servlet-name>
+        <url-pattern>/planelistforsch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>delschedule</servlet-name>
+        <url-pattern>/delschedule</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

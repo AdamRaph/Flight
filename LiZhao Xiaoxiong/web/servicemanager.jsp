@@ -77,7 +77,7 @@
                  <br><hr>
                  <jsp:include page="listinventory.jsp"/>
                  <br><hr>
-                 <button type='button' class='btn btn-info ' data-toggle='modal' data-target='#CreateIv'>Create And Discard Inventory Item </button>                
+                 <button type='button' class='btn btn-info ' data-toggle='modal' data-target='#CreateIv'>Create Inventory Item </button>                
              </div>
              <div id="sec2" >
                  <div class="page-header">

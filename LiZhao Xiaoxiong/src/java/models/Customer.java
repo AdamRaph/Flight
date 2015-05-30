@@ -8,7 +8,9 @@ package models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,6 +28,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -106,7 +110,9 @@ public class Customer implements Serializable {
     @Size(min = 1, max = 32)
     @Column(name = "city")
     private String city;
-    @Size(max = 32)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 32)
     @Column(name = "state")
     private String state;
     @Basic(optional = false)
@@ -135,6 +141,8 @@ public class Customer implements Serializable {
     @Size(max = 8)
     @Column(name = "flight_status")
     private String flightStatus;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
+    private List<Ticket> ticketList;
     @JoinColumn(name = "travel_agent", referencedColumnName = "travel_agent")
     @ManyToOne
     private Agentprofiles travelAgent;
@@ -149,7 +157,7 @@ public class Customer implements Serializable {
         this.customerId = customerId;
     }
 
-    public Customer(Integer customerId, String title, String firstName, String lastName, String gender, Date dob, String phone, String email, String streetAddress, String city, String country, String creditCardType, String creditCardNum, int frequentFlierPts, boolean passportHolder) {
+    public Customer(Integer customerId, String title, String firstName, String lastName, String gender, Date dob, String phone, String email, String streetAddress, String city, String state, String country, String creditCardType, String creditCardNum, int frequentFlierPts, boolean passportHolder) {
         this.customerId = customerId;
         this.title = title;
         this.firstName = firstName;
@@ -160,6 +168,7 @@ public class Customer implements Serializable {
         this.email = email;
         this.streetAddress = streetAddress;
         this.city = city;
+        this.state = state;
         this.country = country;
         this.creditCardType = creditCardType;
         this.creditCardNum = creditCardNum;
@@ -301,6 +310,15 @@ public class Customer implements Serializable {
 
     public void setFlightStatus(String flightStatus) {
         this.flightStatus = flightStatus;
+    }
+
+    @XmlTransient
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
     }
 
     public Agentprofiles getTravelAgent() {

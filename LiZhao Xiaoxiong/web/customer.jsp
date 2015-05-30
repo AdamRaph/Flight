@@ -38,10 +38,7 @@
                 <ul class="collapse" id="booking">
                     <li id="m2">
                         <a href="#" onclick="cususecase(2)">Create booking</a>
-                    </li>
-                    <li id="m4">
-                        <a href="#" onclick="cususecase(4)">Select/Change flight services</a>
-                    </li>
+                    </li>                    
                     <li id="m5">
                         <a href="#" onclick="cususecase(5)">Cancel flight booking</a>
                     </li>
@@ -132,23 +129,21 @@
                 </form>
             </div>
             <div id="sec2"  style="display: none;">
-                <jsp:include page="createbooking.jsp"/>   
+               <!--jsp:include page="createbooking.jsp"/-->
+                <!--jsp:include page="listscheduleforcus.jsp"/>/-->
             </div>
             <div id="sec3" style="display: none;">
                 <h4>Group A Sub 3</h4>
-            </div>
-            <div id="sec4" style="display: none;">
-                <h4>Group A Sub 4</h4>
-            </div>
+            </div>           
             <div id="sec5" style="display: none;">
                 <h4>Group A Sub 5</h4>
             </div>
             <div id="sec6" style="display: none;">     
-                <jsp:include page="customerdetail.jsp"/>                   
+                <jsp:include page="customerdetail.jsp"/>              
             </div>
             
             <div id="sec7" style="display: none;">
-                <jsp:include page="creditcard.jsp"/>  
+                <jsp:include page="creditcard.jsp"/>    
             </div>
         </section>
         </div>

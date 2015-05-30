@@ -7,7 +7,9 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -56,9 +60,11 @@ public class Seat implements Serializable {
     @NotNull
     @Column(name = "occupied")
     private boolean occupied;
-    @JoinColumn(name = "fleetID", referencedColumnName = "fleetID")
+    @JoinColumn(name = "PlaneID", referencedColumnName = "PlaneID")
     @ManyToOne(optional = false)
-    private Fleet fleetID;
+    private Airplane planeID;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seatNumber")
+    private List<Ticket> ticketList;
 
     public Seat() {
     }
@@ -106,12 +112,21 @@ public class Seat implements Serializable {
         this.occupied = occupied;
     }
 
-    public Fleet getFleetID() {
-        return fleetID;
+    public Airplane getPlaneID() {
+        return planeID;
     }
 
-    public void setFleetID(Fleet fleetID) {
-        this.fleetID = fleetID;
+    public void setPlaneID(Airplane planeID) {
+        this.planeID = planeID;
+    }
+
+    @XmlTransient
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
     }
 
     @Override

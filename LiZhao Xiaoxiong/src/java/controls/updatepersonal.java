@@ -115,7 +115,7 @@ public class updatepersonal extends HttpServlet {
                 EntityManager em = emf.createEntityManager();
                 Login lg = em.find(Login.class, user);
                 Customer cus = lg.getCustomer();
-                if(title != "")
+                if(title != null)
                     cus.setTitle(title);
                 if(lastname != "")
                     cus.setLastName(lastname);

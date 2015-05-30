@@ -15,12 +15,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,13 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Fleet.findAll", query = "SELECT f FROM Fleet f"),
     @NamedQuery(name = "Fleet.findByFleetID", query = "SELECT f FROM Fleet f WHERE f.fleetID = :fleetID"),
-    @NamedQuery(name = "Fleet.findByAircraft", query = "SELECT f FROM Fleet f WHERE f.aircraft = :aircraft"),
-    @NamedQuery(name = "Fleet.findByInService", query = "SELECT f FROM Fleet f WHERE f.inService = :inService"),
-    @NamedQuery(name = "Fleet.findByFirstClass", query = "SELECT f FROM Fleet f WHERE f.firstClass = :firstClass"),
-    @NamedQuery(name = "Fleet.findByBusinessClass", query = "SELECT f FROM Fleet f WHERE f.businessClass = :businessClass"),
-    @NamedQuery(name = "Fleet.findByPremiumClass", query = "SELECT f FROM Fleet f WHERE f.premiumClass = :premiumClass"),
-    @NamedQuery(name = "Fleet.findByEconomyClass", query = "SELECT f FROM Fleet f WHERE f.economyClass = :economyClass"),
-    @NamedQuery(name = "Fleet.findByTotal", query = "SELECT f FROM Fleet f WHERE f.total = :total")})
+    @NamedQuery(name = "Fleet.findByInService", query = "SELECT f FROM Fleet f WHERE f.inService = :inService")})
 public class Fleet implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,35 +45,13 @@ public class Fleet implements Serializable {
     private Integer fleetID;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 32)
-    @Column(name = "aircraft")
-    private String aircraft;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "inService")
     private int inService;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "firstClass")
-    private int firstClass;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "businessClass")
-    private int businessClass;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "premiumClass")
-    private int premiumClass;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "economyClass")
-    private int economyClass;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "total")
-    private int total;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fleetID")
-    private List<Seat> seatList;
+    @JoinColumn(name = "AirportITIA", referencedColumnName = "IATA")
+    @ManyToOne(optional = false)
+    private Airport airportITIA;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "onefleet")
+    private List<Airplane> airplaneList;
 
     public Fleet() {
     }
@@ -87,15 +60,9 @@ public class Fleet implements Serializable {
         this.fleetID = fleetID;
     }
 
-    public Fleet(Integer fleetID, String aircraft, int inService, int firstClass, int businessClass, int premiumClass, int economyClass, int total) {
+    public Fleet(Integer fleetID, int inService) {
         this.fleetID = fleetID;
-        this.aircraft = aircraft;
         this.inService = inService;
-        this.firstClass = firstClass;
-        this.businessClass = businessClass;
-        this.premiumClass = premiumClass;
-        this.economyClass = economyClass;
-        this.total = total;
     }
 
     public Integer getFleetID() {
@@ -106,14 +73,6 @@ public class Fleet implements Serializable {
         this.fleetID = fleetID;
     }
 
-    public String getAircraft() {
-        return aircraft;
-    }
-
-    public void setAircraft(String aircraft) {
-        this.aircraft = aircraft;
-    }
-
     public int getInService() {
         return inService;
     }
@@ -122,53 +81,21 @@ public class Fleet implements Serializable {
         this.inService = inService;
     }
 
-    public int getFirstClass() {
-        return firstClass;
+    public Airport getAirportITIA() {
+        return airportITIA;
     }
 
-    public void setFirstClass(int firstClass) {
-        this.firstClass = firstClass;
-    }
-
-    public int getBusinessClass() {
-        return businessClass;
-    }
-
-    public void setBusinessClass(int businessClass) {
-        this.businessClass = businessClass;
-    }
-
-    public int getPremiumClass() {
-        return premiumClass;
-    }
-
-    public void setPremiumClass(int premiumClass) {
-        this.premiumClass = premiumClass;
-    }
-
-    public int getEconomyClass() {
-        return economyClass;
-    }
-
-    public void setEconomyClass(int economyClass) {
-        this.economyClass = economyClass;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
+    public void setAirportITIA(Airport airportITIA) {
+        this.airportITIA = airportITIA;
     }
 
     @XmlTransient
-    public List<Seat> getSeatList() {
-        return seatList;
+    public List<Airplane> getAirplaneList() {
+        return airplaneList;
     }
 
-    public void setSeatList(List<Seat> seatList) {
-        this.seatList = seatList;
+    public void setAirplaneList(List<Airplane> airplaneList) {
+        this.airplaneList = airplaneList;
     }
 
     @Override
