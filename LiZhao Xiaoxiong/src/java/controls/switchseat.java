@@ -8,7 +8,6 @@ package controls;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,21 +25,20 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import models.Airplane;
-import models.Fleet;
 import models.Seat;
+import models.Ticket;
 
 /**
  *
  * @author Victor
  */
-public class newplane extends HttpServlet {
-
+public class switchseat extends HttpServlet {
 
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -53,18 +51,43 @@ public class newplane extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fid = request.getParameter("fleetid");
+        String tkid = request.getParameter("tkid");
         
         EntityManager em = emf.createEntityManager();
-        Fleet ft = em.getReference(Fleet.class, fid);
-        List<Airplane> aps = ft.getAirplaneList();
+        Ticket tk = em.getReference(Ticket.class, Integer.parseInt(tkid));
         
-         PrintWriter out = response.getWriter(); 
-         out.println("<tr><th>Plane ID</th><th>firstClass</th><th>businessClass</th><th>premiumClass</th><th>economyClass</th><th>total</th></tr>");
-         
-         for(Airplane ap:aps){
-             out.println("<tr><td>" + ap.getPlaneID() + "</td><td>" + ap.getFirstClass() + "</td><td>" + ap.getBusinessClass() + "</td><td>" + ap.getPremiumClass() + "</td><td>" + ap.getEconomyClass() +"</td><td>" + ap.getTotal() + "</td></tr>");
-         }
+        List<Seat> seats = tk.getScheduleID().getPlaneID().getSeatList();
+        
+        PrintWriter out = response.getWriter(); 
+        out.println("<tr><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th>");
+        
+        int row = 1;
+        for(int i = 0;i < seats.size();i ++){
+            if(row == 1)
+                out.println("<tr>");
+            if(seats.get(i).getOccupied() == true)
+                out.println("<td><button onlick = 'sitchseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info' disabled>select</button>");
+            else
+                out.println("<td><button onlick = 'sitchseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info'>select</button>");
+            
+            if(seats.get(i).getSeatClass().equals("first")){
+                out.println("<td class=\"success\">" + seats.get(i).getSeatNumber() + "</td>");
+            }
+            else if(seats.get(i).getSeatClass().equals("business")){
+                out.println("<td class=\"info\">" + seats.get(i).getSeatNumber() + "</td>");
+            }
+            else if(seats.get(i).getSeatClass().equals("economy")){
+                out.println("<td class=\"warning\">" + seats.get(i).getSeatNumber() + "</td>");
+            }
+            else if(seats.get(i).getSeatClass().equals("premium")){
+                out.println("<td class=\"danger\">" + seats.get(i).getSeatNumber() + "</td>");
+            }
+            if(row == 1)
+                out.println("</tr>");
+            row ++;
+            if(row == 3)
+                row = 1;
+        }
     }
 
     /**
@@ -79,69 +102,24 @@ public class newplane extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String fleetid = request.getParameter("choosing");
-            String fclass = request.getParameter("fclass");
-            String bclass = request.getParameter("bclass");
-            String eclass = request.getParameter("eclass");
-            String pclass = request.getParameter("pclass");
-            
-            int fclassn = Integer.parseInt(fclass);
-            int bclassn = Integer.parseInt(bclass);
-            int eclassn = Integer.parseInt(eclass);
-            int pclassn = Integer.parseInt(pclass);
-            
-            int total = fclassn + bclassn + eclassn + pclassn;
+            String ticketid = request.getParameter("ticketid");
+            String nseatid = request.getParameter("nseatid");
             
             utx.begin();
             EntityManager em = emf.createEntityManager();
-            Airplane ap = new Airplane();
-            Fleet ft = em.getReference(Fleet.class, Integer.parseInt(fleetid));
-            int isv = ft.getInService();
-            ft.setInService(isv + 1);
-            ap.setOnefleet(ft);
-            ap.setFirstClass(fclassn);
-            ap.setBusinessClass(bclassn);
-            ap.setEconomyClass(eclassn);
-            ap.setPremiumClass(pclassn);
-            ap.setTotal(total);
-            
-            List<Seat> seats = new ArrayList<Seat>();
-            int f = 0,b = 0,e = 0,p = 0;
-            for(int i = 0;i < total; i++){
-                Seat s = new Seat();
-                if(i < fclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("first");
-                    s.setSeatNumber(f + "F");
-                    f ++;
-                }
-                else if(i >= fclassn && i < fclassn + bclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("business");
-                    s.setSeatNumber(f + "B");
-                    b ++;
-                }
-                else if(i >= fclassn + bclassn && i < fclassn + bclassn + eclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("economy");
-                    s.setSeatNumber(e + "E");
-                    e ++;
-                }
-                else if(i >= fclassn + bclassn + eclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("premium");
-                    s.setSeatNumber(p + "P");
-                    p ++;
-                }
-                seats.add(s);
-            }
-            ap.setSeatList(seats);
-            em.persist(ap);
+            Ticket tk = em.getReference(Ticket.class, Integer.parseInt(ticketid));
+            Seat old = tk.getSeatNumber();
+            old.setOccupied(false);
+            Seat newseat = em.getReference(Seat.class, Integer.parseInt(nseatid));
+            newseat.setOccupied(true);
+            tk.setSeatNumber(newseat);
+            em.persist(tk);
             utx.commit();
-            
+            String newseatnum = newseat.getSeatNumber();
             PrintWriter out = response.getWriter(); 
-            out.println(isv + 1);
+            out.println(newseatnum);
             em.close();
+            
         } catch (NotSupportedException ex) {
             ex.printStackTrace();
         } catch (SystemException ex) {

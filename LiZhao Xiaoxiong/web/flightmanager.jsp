@@ -94,33 +94,13 @@
             </div>
             <div id="sec2" >
                 <jsp:include page="airportlistR.jsp"/>
-                <script type="text/javascript" src="js/ajax12.js"></script>
-                <form id="addroute" class="form-control">
-                    <label class="form-control" for="source">Source airport</label>
-                    <input class="form-control" id="source" type="text" name="source" readonly required>
-                    <label class="form-control" for="destination">Destination airport</label>
-                    <input class="form-control" id="destination" type="text" name="destination" readonly required>
-                    
-                    <fieldset class="form-control">
-                        <legend>other information</legend>
-                        <label class="form-control" for="cshare">Code share</label>
-                        <input class="form-control" id="cshare" type="text" name="cshare">
-                        
-                        <label class="form-control" for="stops">Stops</label>
-                        <input class="form-control" id="stops" type="number" name="stops" step="1">
-                        
-                        <label class="form-control" for="International">International(1 for yes)</label>
-                        <input class="form-control" id="international" name="international" type="text">
-                    </fieldset>
-                    <input onclick="ajax12()" type="submit" class='btn btn-info' value="Create Route">
-                </form>
+                <button type='button' class='btn btn-info ' data-toggle='modal' data-target='#confirmRT'>Create Route </button>
             </div>
             <div id="sec3" >
                 <jsp:include page="airportlistF.jsp"/>
             </div>
             <div id="sec4" >
-                <jsp:include page="listfleet.jsp"/>
-                <button type='button' class='btn btn-info ' data-toggle='modal' data-target='#ViewAPL'>View air plane list </button>
+                <jsp:include page="listfleet.jsp"/>               
             </div>
             <div id="sec5" >
                 <button onclick="getrouteforch()" type='button' class='btn btn-info ' data-toggle='modal' data-target='#ViewRouteCh'>Choose the route </button>
@@ -136,13 +116,13 @@
                 <input class="form-control" id="Chopid" type="text" name="Chopid" readonly required>
                 
                 <label class="form-control" for="depdate">Depart Date</label>
-                <input class="form-control" name="depdate" id="depdate" data-date-format="mm/dd/yyyy">
+                <input class="form-control datepicker" name="depdate" id="depdate" data-date-format="mm/dd/yyyy">
                 
                 <label class="form-control" for="deptime">Depart Time</label>
                 <input class="form-control" name="deptime" id="deptime" type="time">
                 
                 <label class="form-control" for="Ardate">Arrive Date</label>
-                <input class="form-control" name="ardate" id="ardate" data-date-format="mm/dd/yyyy">
+                <input class="form-control datepicker" name="ardate" id="ardate" data-date-format="mm/dd/yyyy">
                 
                 <label class="form-control" for="artime">Arrive Time</label>
                 <input class="form-control" name="artime" id="artime" type="time">
@@ -163,7 +143,7 @@
                         <div class="modal-header" >
                             New Airport Record                          
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="height: 650px">
                             <script type="text/javascript" src="js/ajax10.js"></script>
                             <form id="newair" class="form-control">
                                 <label for="airname">Air portname</label>
@@ -175,7 +155,7 @@
                                 <label for="aircou">Country</label>
                                 <input class="form-control" id="aircou" name="aircou" type="text">
                                 
-                                <label for="airITIA">ITIA(the 3 letters of Airportname</label>
+                                <label for="airITIA">ITIA(the 3 letters of Airportname)</label>
                                 <input class="form-control" id="airITIA" name="airIata" type="text">
                                 
                                 <label for="airLat">Latitude</label>
@@ -201,7 +181,8 @@
                         </div>
                     </div>                  
                 </div>                
-            </div>
+            </div>                   
+</div>
             
             <div class="modal fade" id="deleteAR" role="dialog" >
                 <div class="modal-dialog">
@@ -212,7 +193,7 @@
                         <div class="modal-body">
                             <script type="text/javascript" src="js/ajax11.js"></script>
                             <form id="delair" class="form-control">
-                                <input class="form-control" id="dairportiata" name="dairportiata" type="hidden">
+                                <input  id="dairportiata" name="dairportiata" type="hidden">
                                 <input onclick="ajax11()" type="submit" class="btn btn-warning btn-lg btn-primary"  value="confirm">
                             </form>
                         </div>
@@ -232,8 +213,8 @@
                         <div class="modal-body">
                             <label for="choosing">Choosing airport IATA</label>
                             <input type="text" id="choosing" readonly>
-                            <button onclick="chooseairport(1)" class="btn-info">source</button>
-                            <button onclick="chooseairport(2)" class="btn-info">destination</button>
+                            <button onclick="chooseairport(1)" data-dismiss="modal" class="btn-info">source</button>
+                            <button onclick="chooseairport(2)" data-dismiss="modal" class="btn-info">destination</button>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -354,8 +335,44 @@
                     </div>                  
                 </div>                
             </div>
-</div>
+            
+            <div class="modal fade" id="confirmRT" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-header" >
+                            confirm create new route                      
+                        </div>
+                        <div class="modal-body" style="height: 500px">
+                            <script type="text/javascript" src="js/ajax12.js"></script>
+                            <form id="addroute" class="form-control">
+                                <label class="form-control" for="source">Source airport</label>
+                                <input class="form-control" id="source" type="text" name="source" readonly required>
+                                <label class="form-control" for="destination">Destination airport</label>
+                                <input class="form-control" id="destination" type="text" name="destination" readonly required>
+
+                                    <label class="form-control" for="cshare">Code share</label>
+                                    <input class="form-control" id="cshare" type="text" name="cshare">
+
+                                    <label class="form-control" for="stops">Stops</label>
+                                    <input class="form-control" id="stops" type="number" name="stops" step="1">
+
+                                    <label class="form-control" for="international">International(1 for yes)</label>
+                                    <input class="form-control" id="international" name="international" type="text">
+
+                                <input onclick="ajax12()" type="submit" class='btn btn-info' value="Create Route">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>                  
+                </div>                
+            </div>
 <script>
+    $('.datepicker').datepicker({
+        startDate: '-3d'
+    })
+    
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");

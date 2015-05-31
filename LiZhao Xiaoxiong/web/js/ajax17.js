@@ -1,8 +1,8 @@
-function ajax16(){
+function ajax17(){
     var onetime = true;
-    $('#delschform').submit(function(){
+    $('#confirmticket').submit(function(){
         if(onetime == true){
-        $.post('delschedule', $('#delschform').serialize(), function(data){
+        $.post('newticket', $('#confirmticket').serialize(), function(data){
             
             onetime = false;
             alert("successfull delete schedule");
@@ -15,5 +15,4 @@ function ajax16(){
         }
     });
 }
-
 

@@ -39,33 +39,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Schedule.findAll", query = "SELECT s FROM Schedule s"),
     @NamedQuery(name = "Schedule.findByScheduleID", query = "SELECT s FROM Schedule s WHERE s.scheduleID = :scheduleID"),
-    @NamedQuery(name = "Schedule.findByFlightID", query = "SELECT s FROM Schedule s WHERE s.flightID = :flightID"),
     @NamedQuery(name = "Schedule.findByDepartDate", query = "SELECT s FROM Schedule s WHERE s.departDate = :departDate"),
     @NamedQuery(name = "Schedule.findByArriveDate", query = "SELECT s FROM Schedule s WHERE s.arriveDate = :arriveDate"),
     @NamedQuery(name = "Schedule.findByDepartTime", query = "SELECT s FROM Schedule s WHERE s.departTime = :departTime"),
     @NamedQuery(name = "Schedule.findByArriveTime", query = "SELECT s FROM Schedule s WHERE s.arriveTime = :arriveTime")})
 public class Schedule implements Serializable {
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "departTime")
-    private String departTime;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
-    @Column(name = "arriveTime")
-    private String arriveTime;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "scheduleID")
     private Integer scheduleID;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 8)
-    @Column(name = "flightID")
-    private String flightID;
     @Basic(optional = false)
     @NotNull
     @Column(name = "departDate")
@@ -76,12 +60,22 @@ public class Schedule implements Serializable {
     @Column(name = "arriveDate")
     @Temporal(TemporalType.DATE)
     private Date arriveDate;
-    @JoinColumn(name = "routeID", referencedColumnName = "routeID")
-    @ManyToOne(optional = false)
-    private Route routeID;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "departTime")
+    private String departTime;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10)
+    @Column(name = "arriveTime")
+    private String arriveTime;
     @JoinColumn(name = "planeID", referencedColumnName = "PlaneID")
     @ManyToOne(optional = false)
     private Airplane planeID;
+    @JoinColumn(name = "routeID", referencedColumnName = "routeID")
+    @ManyToOne(optional = false)
+    private Route routeID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scheduleID")
     private List<Ticket> ticketList;
 
@@ -92,9 +86,8 @@ public class Schedule implements Serializable {
         this.scheduleID = scheduleID;
     }
 
-    public Schedule(Integer scheduleID, String flightID, Date departDate, Date arriveDate, String departTime, String arriveTime) {
+    public Schedule(Integer scheduleID, Date departDate, Date arriveDate, String departTime, String arriveTime) {
         this.scheduleID = scheduleID;
-        this.flightID = flightID;
         this.departDate = departDate;
         this.arriveDate = arriveDate;
         this.departTime = departTime;
@@ -107,14 +100,6 @@ public class Schedule implements Serializable {
 
     public void setScheduleID(Integer scheduleID) {
         this.scheduleID = scheduleID;
-    }
-
-    public String getFlightID() {
-        return flightID;
-    }
-
-    public void setFlightID(String flightID) {
-        this.flightID = flightID;
     }
 
     public Date getDepartDate() {
@@ -133,13 +118,20 @@ public class Schedule implements Serializable {
         this.arriveDate = arriveDate;
     }
 
-
-    public Route getRouteID() {
-        return routeID;
+    public String getDepartTime() {
+        return departTime;
     }
 
-    public void setRouteID(Route routeID) {
-        this.routeID = routeID;
+    public void setDepartTime(String departTime) {
+        this.departTime = departTime;
+    }
+
+    public String getArriveTime() {
+        return arriveTime;
+    }
+
+    public void setArriveTime(String arriveTime) {
+        this.arriveTime = arriveTime;
     }
 
     public Airplane getPlaneID() {
@@ -148,6 +140,14 @@ public class Schedule implements Serializable {
 
     public void setPlaneID(Airplane planeID) {
         this.planeID = planeID;
+    }
+
+    public Route getRouteID() {
+        return routeID;
+    }
+
+    public void setRouteID(Route routeID) {
+        this.routeID = routeID;
     }
 
     @XmlTransient
@@ -182,22 +182,6 @@ public class Schedule implements Serializable {
     @Override
     public String toString() {
         return "models.Schedule[ scheduleID=" + scheduleID + " ]";
-    }
-
-    public String getDepartTime() {
-        return departTime;
-    }
-
-    public void setDepartTime(String departTime) {
-        this.departTime = departTime;
-    }
-
-    public String getArriveTime() {
-        return arriveTime;
-    }
-
-    public void setArriveTime(String arriveTime) {
-        this.arriveTime = arriveTime;
     }
     
 }

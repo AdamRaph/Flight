@@ -76,7 +76,7 @@ public class newfleet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String itia = request.getParameter("choosing");
+            String itia = request.getParameter("choosing2");
             int inservice = 0;
             
             utx.begin();
@@ -85,8 +85,9 @@ public class newfleet extends HttpServlet {
             Airport ap = em.getReference(Airport.class, itia);
             ft.setAirportITIA(ap);
             ft.setInService(inservice);
-            em.persist(em);
+            em.persist(ft);
             utx.commit();
+            em.close();
         } catch (NotSupportedException ex) {
             ex.printStackTrace();
         } catch (SystemException ex) {

@@ -1,4 +1,4 @@
-function ajax14(){
+function ajax15(){
     var onetime = true;
     $('#addschedule').submit(function(){
         if(onetime == true){

@@ -17,20 +17,23 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
-import models.Airport;
+import models.Customer;
+import models.Login;
+import models.Ticket;
 
 /**
  *
  * @author Victor
  */
-public class ChooseAirportForfleet extends HttpServlet {
+public class changeseat extends HttpServlet {
 
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -44,23 +47,19 @@ public class ChooseAirportForfleet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EntityManager em = emf.createEntityManager();
-        List<Airport> airports = em.createNamedQuery("Airport.findAll",Airport.class).getResultList();
+        HttpSession hs=request.getSession(true);
+        String user = (String)hs.getAttribute("username");
+        Login lg = em.getReference(Login.class, user);
+        Customer cus = lg.getCustomer();
+        List<Ticket> tickets = cus.getTicketList();
         
-        PrintWriter out = response.getWriter(); 
-            out.println(
-        "    <tr>\n" +
-        "    <th>manage</th><th>ID</th><th>Name</th><th>City</th><th>Country</th><th>ITIA</th><th>Latitude</th><th>Longitude</th><th>Altitude</th><th>Timezone</th><th>DST</th>\n" +
-        "    </tr>");
-            
-        for(Airport airport:airports){
-                out.println("<tr id='" + airport.getAirportID() + "'><td><button onclick='getiataII(\"" + airport.getIata() + "\")' type='button' class='btn btn-warning ' data-toggle='modal' data-target='#addtofleet' >addfleet</button></td><td>" + 
-                        airport.getAirportID() + "</td><td>" + airport.getName() + "</td><td>" + airport.getCity() + "</td><td>" + airport.getCountry() +
-                        "</td><td>" + airport.getIata() + "</td><td>" + 
-                        airport.getLatitude() + "</td><td>" + airport.getLongitude() + 
-                        "</td><td>" + airport.getAltitude() + "</td><td>" + airport.getTimeZone() + "</td><td>" + airport.getDst() + "</td></tr>");
-            }
+        PrintWriter out = response.getWriter();
+        out.println("<tr><td>change</td><td>seatnumber</td></tr>");
         
-        em.close();
+        for(Ticket tk:tickets){
+            out.println("<tr><td><button data-toggle='modal' data-target='#confirmseatchange' onclick = 'changeseat(" + tk.getTicketID() + ")' class='btn btn-info'>change seat</button>" + 
+                    "</td><td id = '" + tk.getTicketID() + "n'>" + tk.getSeatNumber().getSeatNumber() + "</td></tr>");
+        }
     }
 
     /**

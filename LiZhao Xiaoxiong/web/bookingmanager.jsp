@@ -13,7 +13,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
             <ul class="nav navbar-nav navbar-right">
-                <li><a class="navbar-brand" href="#" onclick="fmusecase(0)"><span class="glyphicon glyphicon-home"> HOME</span></a> </li>
+                <li><a class="navbar-brand" href="#" onclick="bmusecase(0)"><span class="glyphicon glyphicon-home"> HOME</span></a> </li>
                 <li><a href="#menu-toggle" class="btn btn-info" id="menu-toggle"><span class="glyphicon glyphicon-pushpin"></span></a></li>
             </ul>                      
         </div>             
@@ -31,7 +31,14 @@
             <ul class="sidebar-nav ">
                 <br>
                 
-                                
+                <li  data-toggle="collapse" data-target="#profiles" class="collapsed active">
+                  <a href="#">Profiles<span class="glyphicon glyphicon-menu-right"></span></a>
+                </li>
+                <ul class="collapse" id="profiles">
+                    <li id="m1">
+                        <a href="#" onclick="bmusecase(1)">re-arrange time</a>
+                    </li>       
+                </ul>                
             </ul>
         </div>
         
@@ -54,6 +61,9 @@
         <div class="col-xs-12 col4">
             <div id="sec0" >            
                     <img src="images/bookingm.jpg" class="img-responsive" >
+            </div>
+            <div id="sec1">
+                
             </div>
         </div>                
        

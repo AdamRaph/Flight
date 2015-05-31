@@ -1,8 +1,12 @@
-function ajax16(){
+function ajax19(){
     var onetime = true;
-    $('#delschform').submit(function(){
+    $('#chosenseat').submit(function(){
         if(onetime == true){
-        $.post('delschedule', $('#delschform').serialize(), function(data){
+        $.post('switchseat', $('#chosenseat').serialize(), function(data){
+            var tkid = document.getElementById("ticketid").value;
+            var tknum = tkid + "n";
+            
+            document.getElementById(tknum).innerHTML = data
             
             onetime = false;
             alert("successfull delete schedule");

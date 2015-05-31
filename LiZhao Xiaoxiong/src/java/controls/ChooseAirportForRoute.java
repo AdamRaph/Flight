@@ -52,9 +52,11 @@ public class ChooseAirportForRoute extends HttpServlet {
         "    </tr>");
             
         for(Airport airport:airports){
-                out.println("<tr id='" + airport.getAirportID() + "'><td><button onclick='getiata(" + airport.getIata() + ")' type='button' class='btn btn-warning ' data-toggle='modal' data-target='#addtoroute' >addroute</button></td><td>" + 
+                out.println("<tr id='" + airport.getAirportID() + "'><td><button onclick='getiata(\"" + airport.getIata() + "\")' type='button' class='btn btn-warning ' data-toggle='modal' data-target='#addtoroute' >addroute</button></td><td>" + 
                         airport.getAirportID() + "</td><td>" + airport.getName() + "</td><td>" + airport.getCity() + "</td><td>" + airport.getCountry() +
-                        "</td><td>" + airport.getIata() + "</td></tr>");
+                        "</td><td>" + airport.getIata() + "</td><td>" + 
+                        airport.getLatitude() + "</td><td>" + airport.getLongitude() + 
+                        "</td><td>" + airport.getAltitude() + "</td><td>" + airport.getTimeZone() + "</td><td>" + airport.getDst() + "</td></tr>");
             }
         
         em.close();

@@ -1,9 +1,10 @@
-function ajax16(){
+function ajax18(){
     var onetime = true;
-    $('#delschform').submit(function(){
+    $('#confirmDticket').submit(function(){
         if(onetime == true){
-        $.post('delschedule', $('#delschform').serialize(), function(data){
-            
+        $.post('deletebooking', $('#confirmDticket').serialize(), function(data){
+            var thisrow = document.getElementById("dtkid");
+                document.getElementById("listbookingd").removeChild(thisrow);
             onetime = false;
             alert("successfull delete schedule");
              

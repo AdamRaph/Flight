@@ -7,10 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 </section>
- <footer class="footer">
-      <div class="container">
-        <p class="text-muted">&copy; 2015 Victor</p>
-      </div>
-</footer> 
+ 
     </body>
 </html>

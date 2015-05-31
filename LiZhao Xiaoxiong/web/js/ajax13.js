@@ -1,4 +1,4 @@
-function ajax12(){
+function ajax13(){
     var onetime = true;
     $('#newfleet').submit(function(){
         if(onetime == true){

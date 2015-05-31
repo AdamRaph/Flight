@@ -99,44 +99,24 @@
                     <img src="images/customer.jpg" class="img-responsive" >
             </div>
             <div id="sec1" style="display: none;">
-                <form class="customerop form-horizontal" method="post">
-                    <label for="fn">fight number</label>
-                    <input id="fn" type="text" class="form-control" placeholder="flight number">  
-                    <button class="btn btn-lg btn-primary btn-block " type="submit">Choose Seat</button>
-                </form>
-                <form class="customerop form-horizontal" method="post">
-                    <table class="table table-striped"><!--these should be jsp script return empty seat number-->
-                        <tr>                    
-                            <td>#1</td>
-                             <td><div class="radio">
-                                <input type="radio" name="optradio">
-                            </div></td>
-                        </tr>
-                        <tr>                       
-                            <td>#2</td>
-                            <td><div class="radio disabled">
-                                <input type="radio" name="optradio" disabled>
-                            </div></td>
-                        </tr>
-                        <tr>                        
-                            <td>#3</td>
-                            <td><div class="radio">
-                                <input type="radio" name="optradio">
-                            </div></td>
-                        </tr>
-                    </table>
-                    <button class="btn btn-lg btn-primary btn-block " type="submit">Change Seat</button>
-                </form>
+                <jsp:include page="listbookingCS.jsp"/>
             </div>
             <div id="sec2"  style="display: none;">
-               <!--jsp:include page="createbooking.jsp"/-->
-                <!--jsp:include page="listscheduleforcus.jsp"/>/-->
+               <label for="startdate">start date</label>
+                <input class="form-control datepicker" name="startdate" id="startdate" data-date-format="mm/dd/yyyy">
+                
+                <label for="enddate">end date</label>
+                <input class="form-control datepicker" name="enddate" id="enddate" data-date-format="mm/dd/yyyy">
+                
+                <button onclick="search()" class="btn btn-info">search for schedule</button>
+                
+                <jsp:include page="listschduleforbooking.jsp"/>
             </div>
-            <div id="sec3" style="display: none;">
-                <h4>Group A Sub 3</h4>
+            <div id="sec3" style="display: none;">               
+               <jsp:include page="listbookingP.jsp"/>
             </div>           
             <div id="sec5" style="display: none;">
-                <h4>Group A Sub 5</h4>
+                <jsp:include page="listbookingD.jsp"/>
             </div>
             <div id="sec6" style="display: none;">     
                 <jsp:include page="customerdetail.jsp"/>              
@@ -148,9 +128,110 @@
         </section>
         </div>
         </div>
+            
+            <div class="modal fade" id="confirmbooking" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Confirm booking?
+                        </div>
+                        <div class="modal-body">
+                            <script type="text/javascript" src="js/ajax17.js"></script>
+                            <table class="table table-striped" id="choosingseat">
+                                    
+                            </table>
+                            <form id="confirmticket">                                
+                                <input class="form-control" id="schid" name="schid" type="hidden">
+                                Seat id:<input name="seatid" id="seatid" class="form-control" type="text" readonly>
+
+                                <input onclick="ajax17()" type="submit" class="btn btn-warning btn-lg btn-primary"  value="confirm">
+                            </form>
+                        </div>
+                        <div class="modal-footer">       
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>                  
+                </div>                
+            </div>
+            
+            <div class="modal fade" id="confirmdeltick" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Confirm delete booking?
+                        </div>
+                        <div class="modal-body">
+                            <script type="text/javascript" src="js/ajax18.js"></script>
+                            
+                            <form class="form-control" id="confirmDticket">                                
+                                <input class="form-control" id="dtkid" name="dtkid" type="hidden">                              
+
+                                <input onclick="ajax18()" type="submit" class="form-control btn btn-warning btn-lg btn-primary"  value="confirm">
+                            </form>
+                        </div>
+                        <div class="modal-footer">       
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>                  
+                </div>                
+            </div>
+            
+            <div class="modal fade" id="confirmseatchange" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Confirm change seat?
+                        </div>
+                        <div class="modal-body">
+                            <table class="table table-striped" id="changetoempty">
+                                
+                            </table>
+                            <script type="text/javascript" src="js/ajax19.js"></script>
+                            <form class="form-control" id="chosenseat">
+                                <label for="ticketid">ticket ID</label>
+                                <input id="ticketid" name="ticketid" type="text" readonly>
+                                
+                                <label for="nseatid">new seat ID</label>
+                                <input id="nseatid" name="nseatid" type="text" readonly>
+                                
+                                <input onclick="ajax19()" type="submit" value="confirm change" class="btn-info btn">
+                            </form>
+                        </div>
+                        <div class="modal-footer">       
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>                  
+                </div>                
+            </div>
+            
+            <div class="modal fade" id="confirmpaying" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Are u going to pay?
+                        </div>
+                        <div class="modal-body">
+                            <script type="text/javascript" src="js/ajax20.js"></script>
+                            
+                            <form class="form-control" id="payticket">                                
+                                <input class="form-control" id="paytkid" name="paytkid" type="hidden">                              
+
+                                <input onclick="ajax20()" type="submit" class="form-control btn btn-warning btn-lg btn-primary"  value="confirm">
+                            </form>
+                        </div>
+                        <div class="modal-footer">       
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>                  
+                </div>                
+            </div>
 </div>
    
 <script>
+    $('.datepicker').datepicker({
+        startDate: '-3d';
+    })
+    
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");

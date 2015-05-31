@@ -13,6 +13,25 @@ function adminusecase(option){
     }
 }
 
+function arrangetime(){
+    
+}
+
+function bmusecase(option){
+    switch(option){
+        case 0:
+            $('#sec1').hide();
+            $('#home,#sec0').show();
+            $('#m1').removeClass('list-group-item-info');
+            break;
+        case 1:
+            $('#home,#sec0').hide();
+            $('#sec1').show();
+            $('#m1').addClass('list-group-item-info');
+            break;
+    }
+}
+
 function flmusecase(option){
     switch(option){
         case 0:
@@ -46,6 +65,7 @@ function flmusecase(option){
             $('#sec4').show();
             $('#m1,#m2,#m3,#m5,#m6').removeClass('list-group-item-info');
             $('#m4').addClass('list-group-item-info');
+            getfleetlist();
             break;
         case 5:
             $('#home,#sec0,#sec1,#sec2,#sec3,#sec4,#sec6').hide();
@@ -64,10 +84,15 @@ function flmusecase(option){
     }
 }
 
+function getseatid(sid){
+    document.getElementById("seatid").value = sid;
+}
+
+
 function listroute(){
     $.get('delschedule'
        , function(response) {
-            $("scheduleforD").html(response);
+            $("#scheduleforD").html(response);
     }).fail(function(){
                 alert( "Getting failed." );
             });
@@ -153,8 +178,8 @@ function getiataII(IATA){
 }
 
 function chooseairport(option){
-    var sou = document.getElementById();
-    var des = document.getElementById();
+    var sou = document.getElementById("source");
+    var des = document.getElementById("destination");
     var iata = document.getElementById("choosing").value
     
     switch(option){
@@ -167,8 +192,8 @@ function chooseairport(option){
     }
 }
 
-function confirmremoveair(iata){
-    document.getElementById("dairportiata").value = iata;
+function confirmremoveair(iataford){
+    document.getElementById("dairportiata").value = iataford;
 }
 
 function getplanelistforair(){
@@ -312,6 +337,82 @@ function changeCprofile(cuID){
     }
 }
 
+function confirmdeltick(tkid){
+    document.getElementById("dtkid").value = tkid;
+}
+
+function listbookingfordel(){
+    var onetime = true;
+    if(onetime == true){
+        $.get('deletebooking', {
+           }, function(response) {
+                $('#listbookingd').html(response);
+        }).fail(function(){
+            alert( "Getting failed." );
+        });
+        onetime = false;
+    }
+}
+
+function fillforticket(schid){
+    document.getElementById("schid").value = schid;
+    $.get('newticket', {
+        schid: schid
+       }, function(response) {
+            $("#choosingseat").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function search(){
+    var sd = document.getElementById("").value;
+    var ed = document.getElementById("").value;
+    
+    $.get('searchschedule', {
+        start : sd,
+        end : ed
+       }, function(response) {
+            $("#cuplanelist").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function listseatforch(){
+    $.get('changeseat', {       
+       }, function(response) {
+            $("#listbookingCS").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function sitchseatid(nis){
+    document.getElementById("nseatid").value = nis;
+}
+
+function changeseat(tkid){
+    document.getElementById("ticketid").value = tkid;
+    
+    $.get('switchseat', {
+        tkid : tkid
+       }, function(response) {
+            $("#changetoempty").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
+function getpaidlist(){
+    $.get('Paybooking', {       
+       }, function(response) {
+            $("#listbookingP").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
+}
+
 function cususecase(option){
     switch(option){
         case 0:
@@ -324,6 +425,7 @@ function cususecase(option){
             $('#m1').addClass('list-group-item-info');
             $('#m2,#m3,#m4,#m5,#m6,#m7').removeClass('list-group-item-info');
             $('#sec1').show();
+            listseatforch();
             break;
         case 2:
             $('#home,#sec0,#sec1,#sec3,#sec4,#sec5,#sec6,#sec7').hide();
@@ -336,12 +438,14 @@ function cususecase(option){
             $('#m3').addClass('list-group-item-info');
             $('#m1,#m2,#m4,#m5,#m6,#m7').removeClass('list-group-item-info');
             $('#sec3').show();
+            getpaidlist();
             break;       
         case 5:
             $('#home,#sec0,#sec1,#sec2,#sec3,#sec4,#sec6,#sec7').hide();
             $('#m5').addClass('list-group-item-info');
             $('#m1,#m2,#m3,#m4,#m6,#m7').removeClass('list-group-item-info');
             $('#sec5').show();
+            listbookingfordel();
             break;
         case 6:
             $('#home,#sec0,#sec1,#sec2,#sec3,#sec4,#sec5,#sec7').hide();

@@ -68,7 +68,7 @@ public class deleteAir extends HttpServlet {
             
             utx.begin();
             EntityManager em = emf.createEntityManager();
-            Airport apt = em.find(Airport.class, Integer.parseInt(apid));
+            Airport apt = em.getReference(Airport.class, apid);
             em.remove(apt);
             utx.commit();
             em.close();

@@ -8,7 +8,6 @@ package controls;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,27 +19,28 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import models.Airplane;
-import models.Fleet;
-import models.Seat;
+import models.Customer;
+import models.Login;
+import models.Ticket;
 
 /**
  *
  * @author Victor
  */
-public class newplane extends HttpServlet {
-
+public class Paybooking extends HttpServlet {
 
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -53,18 +53,24 @@ public class newplane extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fid = request.getParameter("fleetid");
+        HttpSession hs=request.getSession(true);
+        String user = (String)hs.getAttribute("username");
         
         EntityManager em = emf.createEntityManager();
-        Fleet ft = em.getReference(Fleet.class, fid);
-        List<Airplane> aps = ft.getAirplaneList();
+        Login lg = em.getReference(Login.class, user);
+        Customer cus = lg.getCustomer();
+        List<Ticket> tks = cus.getTicketList();
         
-         PrintWriter out = response.getWriter(); 
-         out.println("<tr><th>Plane ID</th><th>firstClass</th><th>businessClass</th><th>premiumClass</th><th>economyClass</th><th>total</th></tr>");
-         
-         for(Airplane ap:aps){
-             out.println("<tr><td>" + ap.getPlaneID() + "</td><td>" + ap.getFirstClass() + "</td><td>" + ap.getBusinessClass() + "</td><td>" + ap.getPremiumClass() + "</td><td>" + ap.getEconomyClass() +"</td><td>" + ap.getTotal() + "</td></tr>");
-         }
+        PrintWriter out = response.getWriter(); 
+        out.println(
+    "    <tr>\n" +
+    "    <th>Pay</th><th>TicketID</th><th>payment status</th>\n" +
+    "    </tr>");
+        
+        for(Ticket tk:tks){
+            out.println("<tr><td><button data-toggle='modal' data-target='#confirmpaying' class='btn btn-info' onclick='buyticket(" + tk.getTicketID() + ")'>" + 
+                    "</button></td><td>" + tk.getTicketID() + "</td><td id='" + tk.getTicketID() + "p'>" + tk.getPayed() + "</td></tr>");
+        }
     }
 
     /**
@@ -79,69 +85,18 @@ public class newplane extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String fleetid = request.getParameter("choosing");
-            String fclass = request.getParameter("fclass");
-            String bclass = request.getParameter("bclass");
-            String eclass = request.getParameter("eclass");
-            String pclass = request.getParameter("pclass");
-            
-            int fclassn = Integer.parseInt(fclass);
-            int bclassn = Integer.parseInt(bclass);
-            int eclassn = Integer.parseInt(eclass);
-            int pclassn = Integer.parseInt(pclass);
-            
-            int total = fclassn + bclassn + eclassn + pclassn;
+            String payid = request.getParameter("paytkid");
             
             utx.begin();
             EntityManager em = emf.createEntityManager();
-            Airplane ap = new Airplane();
-            Fleet ft = em.getReference(Fleet.class, Integer.parseInt(fleetid));
-            int isv = ft.getInService();
-            ft.setInService(isv + 1);
-            ap.setOnefleet(ft);
-            ap.setFirstClass(fclassn);
-            ap.setBusinessClass(bclassn);
-            ap.setEconomyClass(eclassn);
-            ap.setPremiumClass(pclassn);
-            ap.setTotal(total);
-            
-            List<Seat> seats = new ArrayList<Seat>();
-            int f = 0,b = 0,e = 0,p = 0;
-            for(int i = 0;i < total; i++){
-                Seat s = new Seat();
-                if(i < fclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("first");
-                    s.setSeatNumber(f + "F");
-                    f ++;
-                }
-                else if(i >= fclassn && i < fclassn + bclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("business");
-                    s.setSeatNumber(f + "B");
-                    b ++;
-                }
-                else if(i >= fclassn + bclassn && i < fclassn + bclassn + eclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("economy");
-                    s.setSeatNumber(e + "E");
-                    e ++;
-                }
-                else if(i >= fclassn + bclassn + eclassn){
-                    s.setPlaneID(ap);
-                    s.setSeatClass("premium");
-                    s.setSeatNumber(p + "P");
-                    p ++;
-                }
-                seats.add(s);
-            }
-            ap.setSeatList(seats);
-            em.persist(ap);
+            Ticket tk = em.getReference(Ticket.class, Integer.parseInt(payid));
+            tk.setPayed(true);
+            em.persist(tk);
             utx.commit();
+            em.close();
             
             PrintWriter out = response.getWriter(); 
-            out.println(isv + 1);
-            em.close();
+            out.println(true);
         } catch (NotSupportedException ex) {
             ex.printStackTrace();
         } catch (SystemException ex) {

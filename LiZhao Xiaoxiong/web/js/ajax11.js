@@ -3,12 +3,12 @@ function ajax11(){
     $('#delair').submit(function(){
         if(onetime == true){
         $.post('deleteAir', $('#delair').serialize(), function(data){
-            var rowid = document.getElementById("dairportid").value;
+            var rowid = document.getElementById("dairportiata").value;
             var thisrow = document.getElementById(rowid);
             document.getElementById("planelist").removeChild(thisrow);
             onetime = false;
             alert("successfull delete airport");
-             
+            return;
         }).fail(function() {  
             onetime = false;
             alert( "Posting failed." );
