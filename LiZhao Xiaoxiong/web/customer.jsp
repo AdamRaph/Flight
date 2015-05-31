@@ -61,10 +61,10 @@
                 </li>
                 <ul class="collapse" id="details">
                     <li id="m6">
-                        <a href="#" onclick="cususecase(6)">update details<span class="glyphicon glyphicon-user"></span></a>
+                        <a href="#" onclick="cususecase(6)">Update Details<span class="glyphicon glyphicon-user"></span></a>
                     </li>
                     <li id="m7">
-                        <a href="#" onclick="cususecase(7)">update creditcard info<span class="glyphicon glyphicon-credit-card"></span></a>
+                        <a href="#" onclick="cususecase(7)">Update Credit Card Info<span class="glyphicon glyphicon-credit-card"></span></a>
                     </li>
                 </ul>  
             </ul>
@@ -77,7 +77,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="page-header">
-                           <h1>welcome to our airline</h1>
+                           <h1>Welcome to our Airline</h1>
                         </div>                                           
                     </div>
                 </div>
@@ -102,13 +102,13 @@
                 <jsp:include page="listbookingCS.jsp"/>
             </div>
             <div id="sec2"  style="display: none;">
-               <label for="startdate">start date</label>
+               <label for="startdate">Start date</label>
                 <input class="form-control datepicker" name="startdate" id="startdate" data-date-format="mm/dd/yyyy">
                 
                 <label for="enddate">end date</label>
                 <input class="form-control datepicker" name="enddate" id="enddate" data-date-format="mm/dd/yyyy">
                 
-                <button onclick="search()" class="btn btn-info">search for schedule</button>
+                <button onclick="search()" class="btn btn-info">Search for schedule</button>
                 
                 <jsp:include page="listschduleforbooking.jsp"/>
             </div>
@@ -158,7 +158,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            Confirm delete booking?
+                            Are you sure you want to delete this booking?
                         </div>
                         <div class="modal-body">
                             <script type="text/javascript" src="js/ajax18.js"></script>
