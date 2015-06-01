@@ -59,7 +59,8 @@ public class Paybooking extends HttpServlet {
         EntityManager em = emf.createEntityManager();
         Login lg = em.getReference(Login.class, user);
         Customer cus = lg.getCustomer();
-        em.refresh(cus);
+        
+            em.refresh(cus);
         List<Ticket> tks = cus.getTicketList();        
         PrintWriter out = response.getWriter(); 
         out.println(
@@ -71,6 +72,7 @@ public class Paybooking extends HttpServlet {
             out.println("<tr><td><button data-toggle='modal' data-target='#confirmpaying' class='btn btn-info' onclick='buyticket(" + tk.getTicketID() + ")'>" + 
                     "Pay</button></td><td>" + tk.getTicketID() + "</td><td id='" + tk.getTicketID() + "p'>" + tk.getPayed() + "</td></tr>");
         }
+        em.close();
     }
 
     /**

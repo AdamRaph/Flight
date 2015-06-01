@@ -47,6 +47,7 @@ public class planelistforsch extends HttpServlet {
         String sourceA = request.getParameter("sourceA");
             EntityManager em = emf.createEntityManager();
             Airport ar = em.createNamedQuery("Airport.findByName", Airport.class).setParameter("name", sourceA).getSingleResult();
+            em.refresh(ar);
             List<Fleet> fts = ar.getFleetList();
             
             PrintWriter out = response.getWriter();

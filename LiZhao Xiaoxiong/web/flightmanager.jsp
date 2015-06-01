@@ -77,7 +77,7 @@
                                HttpSession hs=request.getSession(true);  
                                String user = (String)hs.getAttribute("username");                         
                                out.print(user);
-                           %>, What would you like to do?</h1>
+                           %> what's managing for today</h1>
                         </div>                                           
                     </div>
                 </div>

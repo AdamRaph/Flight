@@ -504,12 +504,15 @@ function checkcard(){
     
     if(type == "jcb" && num.length != 16){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+        return false;
     }
     else if(type == "americanexpress" && num.length != 15){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 15 digits<b></span>";
+        return false;
     }
     else if(type == "bankcard" && num.length != 16){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+        return false;
     }
     else if(type == "maestro" && num.length != 18){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 18 digits<b></span>";
@@ -517,20 +520,28 @@ function checkcard(){
     }
     else if(type == "visa-electron" && num.length != 16){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+        return false;
     }
     else if(type == "diners-club-carte-blanche" && num.length != 14){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 14 digits<b></span>";
+        return false;
     }
     else if(type == "switch" && num.length != 19){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 19 digits<b></span>";
+        return false;
     }
     else if(type == "solo" && num.length != 19){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 19 digits<b></span>";
+        return false;
     }
     else if(type == "china-unionpay" && num.length != 16){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 16 digits<b></span>";
+        return false;
     }
     else if(type == "laser" && num.length != 19){
         warning.innerHTML = "<span class='label label-warning'><b>there should be 19 digits<b></span>";
-    }  
+        return false;
+    } 
+    else 
+        return true;
 }

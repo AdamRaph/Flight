@@ -78,7 +78,7 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("username", username);
             RequestDispatcher view = null;
-            
+            em.close();
             switch(role){
                 case "customer":
                     session.setAttribute("role", role);
@@ -106,7 +106,7 @@ public class LoginController extends HttpServlet {
                     view.forward(request, response);
                     break;
             }
-            em.close();
+            
         }
     }
 

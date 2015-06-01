@@ -134,7 +134,7 @@
         <div id="info">               
         </div> 
         
-        <input type="submit" class="form-group" value="Create personal details">     
+        <input onsubmit="return checkcard()" type="submit" class="form-group" value="Create personal details">     
     </form>
 
 <jsp:include page="footer.jsp"/>

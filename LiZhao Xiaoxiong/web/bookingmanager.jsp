@@ -36,7 +36,7 @@
                 </li>
                 <ul class="collapse" id="profiles">
                     <li id="m1">
-                        <a href="#" onclick="bmusecase(1)">Re-arrange Time</a>
+                        <a href="#" onclick="bmusecase(1)">re-arrange time</a>
                     </li>       
                 </ul>                
             </ul>
@@ -51,7 +51,7 @@
                                HttpSession hs=request.getSession(true);  
                                String user = (String)hs.getAttribute("username");                         
                                out.print(user);
-                           %>, What would you like to do?</h1>
+                           %> what's managing for today</h1>
                         </div>                                           
                     </div>
                 </div>

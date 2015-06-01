@@ -78,10 +78,10 @@ public class CreateperRecord extends HttpServlet {
             
             String gender;
             if(genders[0] != ""){
-                gender = genders[0];
+                gender = "male";
             }
             else{
-                gender = genders[1];
+                gender = "famale";
             }
             
             String year = request.getParameter("year");

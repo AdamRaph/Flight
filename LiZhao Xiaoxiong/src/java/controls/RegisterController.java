@@ -73,11 +73,12 @@ public class RegisterController extends HttpServlet {
         String password = request.getParameter("password");
         String role = "customer";
         
-        Login lg = new Login(username,password,role);        
-        
+               
         try {      
             utx.begin(); 
+            Login lg = new Login(username,password,role); 
             EntityManager em = emf.createEntityManager();
+            
             em.persist(lg);
             utx.commit();
             em.close();

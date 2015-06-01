@@ -64,7 +64,7 @@ public class searchschedule extends HttpServlet {
             edate = df.parse(edates);
                     ;  
             EntityManager em = emf.createEntityManager();
-            String jpql = "SELECT s FROM Schedule s WHERE s.departDate >= ?1 AND s.arriveDate < ?2";
+            String jpql = "SELECT s FROM Schedule s WHERE s.departDate >= ?1 AND s.arriveDate <= ?2";
             Query query = em.createQuery(jpql);
             query.setParameter(1, sdate,TemporalType.DATE);
             query.setParameter(2, edate,TemporalType.DATE);

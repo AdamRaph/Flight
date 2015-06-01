@@ -76,10 +76,10 @@ public class updatepersonal extends HttpServlet {
                 
                 String gender;
                 if(genders[0] != ""){
-                    gender = genders[0];
+                    gender = "male";
                 }
                 else{
-                    gender = genders[1];
+                    gender = "female";
                 }
                 
                 String year = request.getParameter("year");
@@ -115,29 +115,29 @@ public class updatepersonal extends HttpServlet {
                 EntityManager em = emf.createEntityManager();
                 Login lg = em.find(Login.class, user);
                 Customer cus = lg.getCustomer();
-                if(title != null)
+                if(!title.equals(""))
                     cus.setTitle(title);
-                if(lastname != "")
+                if(!lastname.equals(""))
                     cus.setLastName(lastname);
-                if(firstname != "")
+                if(!firstname.equals(""))
                     cus.setFirstName(firstname);
-                if(gender != "")
+                if(!gender.equals(""))
                     cus.setGender(gender);
                 if(dob != null)
                     cus.setDob(dob);
-                if(phone != "")
+                if(!phone.equals(""))
                     cus.setPhone(phone);
-                if(email != "")
+                if(!email.equals(""))
                     cus.setEmail(email);
-                if(street != "")
+                if(!street.equals(""))
                     cus.setStreetAddress(street);
-                if(state != "")
+                if(!state.equals(""))
                     cus.setState(state);
-                if(city != "")
+                if(!city.equals(""))
                     cus.setCity(city);
-                if(country != "")
+                if(!country.equals(""))
                     cus.setCountry(country);
-                if(pholder != false)
+                
                     cus.setPassportHolder(pholder);
                 
                 em.persist(cus);

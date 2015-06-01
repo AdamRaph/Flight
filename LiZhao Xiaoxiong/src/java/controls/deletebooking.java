@@ -54,12 +54,14 @@ public class deletebooking extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManager em = emf.createEntityManager();
         HttpSession hs=request.getSession(true);
         String user = (String)hs.getAttribute("username");
+        EntityManager em = emf.createEntityManager();
+        
         Login lg = em.getReference(Login.class, user);
         Customer cus = lg.getCustomer();
-        em.refresh(cus);
+        
+            em.refresh(cus);
         List<Ticket> tickets = cus.getTicketList();
         
         PrintWriter out = response.getWriter();

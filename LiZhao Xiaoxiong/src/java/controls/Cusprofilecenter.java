@@ -107,10 +107,10 @@ public class Cusprofilecenter extends HttpServlet {
             String gender = "";
             if(genders !=  null){
                 if(genders[0] != ""){
-                    gender = genders[0];
+                    gender = "male";
                 }
                 else{
-                    gender = genders[1];
+                    gender = "famale";
                 }
             }
             
@@ -153,7 +153,8 @@ public class Cusprofilecenter extends HttpServlet {
                 EntityManager em = emf.createEntityManager();
                 Login lg = em.find(Login.class, user);
                     Customer cus = lg.getCustomer();
-                    cus.setTitle(title);
+                    if(!title.equals(""))
+                        cus.setTitle(title);
                 
                     cus.setLastName(lastname);
                
