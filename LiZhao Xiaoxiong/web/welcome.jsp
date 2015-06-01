@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>          
+            <span class="sr-only">Toggle Navigation</span>          
           </button>
           <a class="navbar-brand" href="#"></a>
         </div>
@@ -34,7 +34,7 @@
 </div>
 
 <div class="container">
-        <h1><b>Welcome to our airline website!</b></h1>
+        <h1><b>Welcome to our Airline Website!</b></h1>
         <p><b>If you are new to the system, please sign up below. If you are an existing user, please sign in above.</b></p>  
        <form class="form-signup" method="post" action="RegisterController" onSubmit="return checkform()">
         <h2 class="form-signup-heading">Sign Up Here</h2>              

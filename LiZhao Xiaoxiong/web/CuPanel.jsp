@@ -9,7 +9,7 @@
 <hr><br>
 <div id="page1" class="col-md-12 col-xs-8">
 <form id="customerprofile" class="form-group">   
-        <label for="thisuser" class="form-group">username(must same as oringinal one) </label>
+        <label for="thisuser" class="form-group">Username (Must be the same as original username) </label>
         <input id="thisuser" name="thisuser" type="text" class="form-group" required>
     
             <label for="title" class="form-group">Title</label>
@@ -31,7 +31,7 @@
                 <label><input type="radio" name="gender2[]" required>Male</label>
             </div>
             <div class="radio form-group inline">
-                <label><input type="radio" name="gender2[]" required>Famale</label>
+                <label><input type="radio" name="gender2[]" required>Female</label>
             </div>
         </div>
         
@@ -43,7 +43,7 @@
                 </div>
                 
                  <div class="col-md-2 col-xs-1">
-                     <label for="month" class="form-group"><input name="month2" id="month" class="form-group" type="text" required> Month</label>
+                     <label for="month" class="form-group"><input name="month2" id="month" class="form-group" type="text" required>Month</label>
                 </div>
                 
                  <div class="col-md-2 col-xs-1">
@@ -54,7 +54,7 @@
         </div>
                
         
-        <label for="ph">phone
+        <label for="ph">Phone
         <div id="ph" class="col-md-6 col-xs-3">
             <div class="col-md-1 col-xs-1"> 
                 <input class="form-group" name="dis2" type="text" required >
@@ -89,7 +89,7 @@
         </div>
         
         <div class="col-md-12 col-xs-10">            
-          <label class="radio control-label">Passport holder</label>
+          <label class="radio control-label">Passport Holder</label>
           <div class="radio form-group inline">
                 <label><input type="radio" name="passport2[]" required>No</label>
           </div>
