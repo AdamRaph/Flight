@@ -5,7 +5,7 @@ function ajax17(){
         $.post('newticket', $('#confirmticket').serialize(), function(data){
             
             onetime = false;
-            alert("successfull delete schedule");
+            alert("successfull create ticket");
              
         }).fail(function() {  
             onetime = false;

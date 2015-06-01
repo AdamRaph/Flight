@@ -55,9 +55,9 @@ public class searchschedule extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String sdates = request.getParameter("startdate");
-            String edates = request.getParameter("enddate");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String sdates = request.getParameter("start");
+            String edates = request.getParameter("end");
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             
             Date sdate = null,edate = null;
             sdate = df.parse(sdates);
@@ -78,20 +78,20 @@ public class searchschedule extends HttpServlet {
                 Airport fromA = temprt.getSourceAirport();
                 String fromCou = fromA.getCountry();
                 String fromCity = fromA.getCity();
-                String from = fromCou + " " + fromCity;
+                String from = fromCity + " " + fromCou;
                 
                 Airport toA = temprt.getDestinationAirport();
                 String toCou = toA.getCountry();
                 String tocity = toA.getCity();
-                String to = toCou + " " + tocity;
+                String to = tocity + " " + toCou;
                 
                 Airplane tempap = sch.getPlaneID();
                 int planeid = tempap.getPlaneID();
-                out.println("<button onclick='fillforticket(" + sch.getScheduleID() + ")' class='btn btn-info ' data-toggle='modal' data-target='#confirmbooking'>book</button>" +
-                        "<tr><td>" + sch.getDepartTime() + "</td><td>" + sch.getArriveTime() + "</td><td>" + from + "</td><td>" + to + "</td><td>" + planeid + "</td></tr>");
+                out.println("<tr><td><button onclick='fillforticket(" + sch.getScheduleID() + ")' class='btn btn-info ' data-toggle='modal' data-target='#confirmbooking'>book</button>" +
+                        "</td><td>" + sch.getDepartTime() + "</td><td>" + sch.getArriveTime() + "</td><td>" + from + "</td><td>" + to + "</td><td>" + planeid + "</td></tr>");
             }
                 
-                
+            em.close();
         } catch (ParseException ex) {
             Logger.getLogger(searchschedule.class.getName()).log(Level.SEVERE, null, ex);
         }

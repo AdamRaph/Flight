@@ -3,10 +3,11 @@ function ajax18(){
     $('#confirmDticket').submit(function(){
         if(onetime == true){
         $.post('deletebooking', $('#confirmDticket').serialize(), function(data){
+            alert("successfull delete booking");
             var thisrow = document.getElementById("dtkid");
                 document.getElementById("listbookingd").removeChild(thisrow);
             onetime = false;
-            alert("successfull delete schedule");
+           
              
         }).fail(function() {  
             onetime = false;

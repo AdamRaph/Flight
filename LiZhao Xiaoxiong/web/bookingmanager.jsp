@@ -63,14 +63,43 @@
                     <img src="images/bookingm.jpg" class="img-responsive" >
             </div>
             <div id="sec1">
-                
+                <jsp:include page="listscheduleforRet.jsp"/>
             </div>
         </div>                
        
         
     </div>
 </div>
+            <div class="modal fade" id="changedatewt" role="dialog" >
+                <div class="modal-dialog">
+                    <div class="modal-content" >
+                        <div class="modal-header" >
+                            change time for this booking                  
+                        </div>
+                        <div class="modal-body" style="height: 200px">
+                            <script type="text/javascript" src="js/ajax21.js"></script>
+                            <form class="form-control" id="ww">
+                                <input type="hidden" id="chw" name="chw">
+                                Departure date:<input class="form-control datepicker" name="depdatew" id="depdatew" data-date-format="mm/dd/yyyy" required>
+                                Arrive date<input class="form-control datepicker" name="adatew" id="adatew" data-date-format="mm/dd/yyyy" required>
+                                <input onclick="ajax21()" type="submit" class="btn btn-info btn-primary form-control" value="comfirm">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>                  
+                </div>                
+            </div>
 <script>
+    function getidforre(wid){
+        document.getElementById("chw").value = wid;
+    }
+    
+    $('.datepicker').datepicker({
+        startDate: '-3d'
+    })
+    
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");

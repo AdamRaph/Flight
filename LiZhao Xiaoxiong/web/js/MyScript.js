@@ -1,20 +1,34 @@
 function adminusecase(option){
     switch(option){
         case 0:
-            $('#sec1').hide();
+            $('#sec1,#sec2').hide();
             $('#home,#sec0').show();
             $('#m1').removeClass('list-group-item-info');
             break;
         case 1:
-            $('#home,#sec0').hide();
+            $('#home,#sec0,#sec2').hide();
             $('#sec1').show();
             $('#m1').addClass('list-group-item-info');
+            $('#m2').removeClass('list-group-item-info');
+            break;
+        case 2:
+            $('#home,#sec0,#sec1').hide();
+            $('#sec2').show();
+            $('#m2').addClass('list-group-item-info');
+            $('#m1').removeClass('list-group-item-info');
+            break;
             break;
     }
 }
 
-function arrangetime(){
-    
+
+function getschlistforret(){
+    $.get('wetherreport'
+       , function(response) {
+            $("#listscheduleforRet").html(response);
+    }).fail(function(){
+                alert( "Getting failed." );
+            });
 }
 
 function bmusecase(option){
@@ -28,6 +42,7 @@ function bmusecase(option){
             $('#home,#sec0').hide();
             $('#sec1').show();
             $('#m1').addClass('list-group-item-info');
+            getschlistforret();
             break;
     }
 }
@@ -84,6 +99,10 @@ function flmusecase(option){
     }
 }
 
+function confirmdelete(dschid){
+    document.getElementById("delschid").value = dschid;
+}
+
 function getseatid(sid){
     document.getElementById("seatid").value = sid;
 }
@@ -99,27 +118,31 @@ function listroute(){
 }
 
 function viewplane(fleetid){
-    $.get('newplane', {
+    var onetime = true;
+    if(onetime == true){
+        $.get('newplane', {      
         fleetid : fleetid
        }, function(response) {
-            $("cuplanelist").html(response);
+            $("#cuplanelist").html(response);
+            onetime = false;
     }).fail(function(){
                 alert( "Getting failed." );
             });
+    }
 }
 
 function addthisplane(pid){
     document.getElementById("Chopid").value = pid;
 }
 
-function renderroute(rid){
-    document.getElementById("Choroute").value = rid;
+function renderroute(rid){  
     var sourceA = document.getElementById(rid + "s").innerHTML;
     
     $.get('planelistforsch', {
         sourceA : sourceA
        }, function(response) {
-            $("takeoffplane").html(response);
+            document.getElementById("Choroute").value = rid;
+            $("#takeoffplane").html(response);
     }).fail(function(){
                 alert( "Getting failed." );
             });
@@ -366,14 +389,14 @@ function fillforticket(schid){
 }
 
 function search(){
-    var sd = document.getElementById("").value;
-    var ed = document.getElementById("").value;
+    var sd = document.getElementById("startdate").value;
+    var ed = document.getElementById("enddate").value;
     
     $.get('searchschedule', {
         start : sd,
         end : ed
        }, function(response) {
-            $("#cuplanelist").html(response);
+            $("#listschduleforbooking").html(response);
     }).fail(function(){
                 alert( "Getting failed." );
             });
@@ -388,9 +411,7 @@ function listseatforch(){
             });
 }
 
-function sitchseatid(nis){
-    document.getElementById("nseatid").value = nis;
-}
+
 
 function changeseat(tkid){
     document.getElementById("ticketid").value = tkid;

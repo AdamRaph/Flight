@@ -59,8 +59,8 @@ public class newfleet extends HttpServlet {
         
         for(Fleet fleet:fleets){
             out.println("<tr><td><button onclick='renderfid(" + fleet.getFleetID() + ")' type='button' class='btn btn-info ' data-toggle='modal' data-target='#addplanepanel'>New Plane </button></td>" +
-                    "<td><button onclick='viewplane(" + fleet.getFleetID() + ")' type='button' class='btn btn-info ' data-toggle='modal' data-target='#viewcurrentplanes'>View planes </button></td>" +
-                    "<td>" + fleet.getFleetID() +"</td><td>" + fleet.getAirportITIA() + "</td><td id = '" + fleet.getFleetID() + "i'>" + fleet.getInService() + "</td></tr>");
+                    "<td><button onclick='viewplane(\"" + fleet.getFleetID() + "\")' type='button' class='btn btn-info ' data-toggle='modal' data-target='#viewcurrentplanes'>View planes </button></td>" +
+                    "<td>" + fleet.getFleetID() +"</td><td>" + fleet.getAirportITIA().getName() + "</td><td id = '" + fleet.getFleetID() + "i'>" + fleet.getInService() + "</td></tr>");
         }
     }
 

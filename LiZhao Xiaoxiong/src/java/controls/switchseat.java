@@ -55,20 +55,20 @@ public class switchseat extends HttpServlet {
         
         EntityManager em = emf.createEntityManager();
         Ticket tk = em.getReference(Ticket.class, Integer.parseInt(tkid));
-        
+        em.refresh(tk);
         List<Seat> seats = tk.getScheduleID().getPlaneID().getSeatList();
         
         PrintWriter out = response.getWriter(); 
-        out.println("<tr><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th>");
+        out.println("<tr><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th></tr>");
         
         int row = 1;
         for(int i = 0;i < seats.size();i ++){
             if(row == 1)
                 out.println("<tr>");
             if(seats.get(i).getOccupied() == true)
-                out.println("<td><button onlick = 'sitchseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info' disabled>select</button>");
+                out.println("<td><button onclick = 'switchseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-warning' disabled>select</button></td>");
             else
-                out.println("<td><button onlick = 'sitchseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info'>select</button>");
+                out.println("<td><button onclick = 'switchseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info'>select</button></td>");
             
             if(seats.get(i).getSeatClass().equals("first")){
                 out.println("<td class=\"success\">" + seats.get(i).getSeatNumber() + "</td>");
@@ -82,11 +82,12 @@ public class switchseat extends HttpServlet {
             else if(seats.get(i).getSeatClass().equals("premium")){
                 out.println("<td class=\"danger\">" + seats.get(i).getSeatNumber() + "</td>");
             }
-            if(row == 1)
-                out.println("</tr>");
             row ++;
-            if(row == 3)
+            if(row == 4){
+                out.println("</tr>");
                 row = 1;
+            }           
+                
         }
     }
 
@@ -108,11 +109,11 @@ public class switchseat extends HttpServlet {
             utx.begin();
             EntityManager em = emf.createEntityManager();
             Ticket tk = em.getReference(Ticket.class, Integer.parseInt(ticketid));
-            Seat old = tk.getSeatNumber();
+            Seat old = tk.getSeatId();
             old.setOccupied(false);
             Seat newseat = em.getReference(Seat.class, Integer.parseInt(nseatid));
             newseat.setOccupied(true);
-            tk.setSeatNumber(newseat);
+            tk.setSeatId(newseat);
             em.persist(tk);
             utx.commit();
             String newseatnum = newseat.getSeatNumber();

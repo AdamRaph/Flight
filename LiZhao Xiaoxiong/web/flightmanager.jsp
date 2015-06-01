@@ -249,22 +249,22 @@
                         <div class="modal-header" >
                             Add new plane to fleet                     
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="height: 400px">
                             <script type="text/javascript" src="js/ajax14.js"></script>
                             <form id="newplane" class="form-control">
                                 <input class="form-control" id="choosing3" name="choosing3" type="hidden">
                                
                                 <label for="fclass">First Class</label>
-                                <input type="number" step="1" id="fclass" name="fclass">
+                                <input class="form-control" type="number" step="1" id="fclass" name="fclass">
                                 
                                 <label for="bclass">Business Class</label>
-                                <input type="number" step="1" id="bclass" name="bclass">
+                                <input class="form-control" type="number" step="1" id="bclass" name="bclass">
                                 
                                 <label for="pclass">Premium Class</label>
-                                <input type="number" step="1" id="pclass" name="pclass">
+                                <input class="form-control" type="number" step="1" id="pclass" name="pclass">
                                 
                                 <label for="eclass">Economy Class</label>
-                                <input type="number" step="1" id="eclass" name="eclass">
+                                <input class="form-control" type="number" step="1" id="eclass" name="eclass">
                                 
                                 <input onclick="ajax14()" type="submit" class="btn btn-warning btn-lg btn-primary"  value="create">
                             </form>
@@ -282,7 +282,7 @@
                         <div class="modal-header" >
                             Current airplane in the fleet                    
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" style="height: 500px">
                             <form id="newfleet" class="form-control">
                                 <table id="cuplanelist" class="table-striped table">
                                     
@@ -302,12 +302,10 @@
                         <div class="modal-header" >
                             Select a route                   
                         </div>
-                        <div class="modal-body">
-                            <form id="newfleet" class="form-control">
+                        <div class="modal-body" style="height: 600px">
                                 <table id="routelistofsch" class="table-striped table">
                                     
                                 </table>
-                            </form>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -325,7 +323,7 @@
                         <div class="modal-body">
                             <script type="text/javascript" src="js/ajax16.js"></script>
                             <form class="form-control" id="delschform">
-                                <input class="form-control" name="delschid" type="hidden">
+                                <input id="delschid" class="form-control" name="delschid" type="hidden">
                                 <input onclick="ajax16()" type="submit" value="confirm delete" class="btn-warning btn">
                             </form> 
                         </div>

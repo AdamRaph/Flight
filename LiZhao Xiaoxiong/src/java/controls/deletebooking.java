@@ -59,6 +59,7 @@ public class deletebooking extends HttpServlet {
         String user = (String)hs.getAttribute("username");
         Login lg = em.getReference(Login.class, user);
         Customer cus = lg.getCustomer();
+        em.refresh(cus);
         List<Ticket> tickets = cus.getTicketList();
         
         PrintWriter out = response.getWriter();
@@ -68,8 +69,9 @@ public class deletebooking extends HttpServlet {
             Schedule sch = tk.getScheduleID();
             String source = sch.getRouteID().getSourceAirport().getName();
             String destination = sch.getRouteID().getDestinationAirport().getName();
-            String deptime = sch.getDepartDate() + " " + sch.getDepartTime();
-            out.print("<tr id = '" + tk.getTicketID() + "'><td><button data-toggle='modal' data-target='#confirmdeletetk' class='btn btn-info' onclick='confirmdeltick(" + tk.getTicketID() + ")'>delete</button></td>" +
+            String[] splitds = sch.getDepartDate().toString().split(" ");
+            String deptime = splitds[0] + " " + splitds[1] + " " + splitds[2] + " " + sch.getDepartTime();
+            out.print("<tr id = '" + tk.getTicketID() + "'><td><button data-toggle='modal' data-target='#confirmdeltick' class='btn btn-info' onclick='confirmdeltick(" + tk.getTicketID() + ")'>delete</button></td>" +
                     "<td>" + tk.getTicketID() + "</td><td>" + source + "</td><td>" + destination + "</td><td>" + deptime + "</td></tr>");
         }
     }
@@ -91,6 +93,7 @@ public class deletebooking extends HttpServlet {
             utx.begin();
             EntityManager em = emf.createEntityManager();
             Ticket tk = em.getReference(Ticket.class, Integer.parseInt(ticketid));
+            tk.getSeatId().setOccupied(false);
             em.remove(tk);
             utx.commit();
         } catch (NotSupportedException ex) {

@@ -9,8 +9,6 @@ package controls;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,25 +17,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.HeuristicMixedException;
-import javax.transaction.HeuristicRollbackException;
-import javax.transaction.NotSupportedException;
-import javax.transaction.RollbackException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-import models.Schedule;
+import models.Serviceinventory;
 
 /**
  *
  * @author Victor
  */
-public class delschedule extends HttpServlet {
+public class checkinventory extends HttpServlet {
 
     @PersistenceUnit(unitName="222PU")
     private EntityManagerFactory emf;
     @Resource
     private UserTransaction utx;
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -50,16 +43,15 @@ public class delschedule extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String type = request.getParameter("type");
         EntityManager em = emf.createEntityManager();
-        List<Schedule> schs = em.createNamedQuery("Schedule.findAll", Schedule.class).getResultList();
+        List<Serviceinventory> si = em.createNamedQuery("Serviceinventory.findByAvaliablity", Serviceinventory.class).setParameter("avaliablity", type).getResultList();
+        PrintWriter out = response.getWriter(); 
         
-        PrintWriter out = response.getWriter();
-        out.println("<tr><th>delete schedule</th><th>schedule ID</th></tr>");
-        
-        for(Schedule sch:schs){
-            out.println("<tr id='" + sch.getScheduleID() + "dch'><td><button data-toggle='modal' data-target='#confirmdelete' class='btn btn-warning' onclick='confirmdelete(" + sch.getScheduleID() + ")'>delete</button>" + 
-                    "</td><td>" + sch.getScheduleID() + "</td></tr>");
+        for(Serviceinventory s:si){
+            out.println("<li class=\"list-group-item\">" + s.getItem() + " " + s.getCost() + "$</li>");
         }
+        em.close();
     }
 
     /**
@@ -73,29 +65,7 @@ public class delschedule extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            String delschid = request.getParameter("delschid");
-            utx.begin();
-            EntityManager em = emf.createEntityManager();
-            Schedule sch = em.getReference(Schedule.class, Integer.parseInt(delschid));
-            em.remove(sch);
-            utx.commit();
-            em.close();
-        } catch (NotSupportedException ex) {
-            ex.printStackTrace();
-        } catch (SystemException ex) {
-            ex.printStackTrace();
-        } catch (RollbackException ex) {
-            ex.printStackTrace();
-        } catch (HeuristicMixedException ex) {
-            ex.printStackTrace();
-        } catch (HeuristicRollbackException ex) {
-            ex.printStackTrace();
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-        } catch (IllegalStateException ex) {
-            ex.printStackTrace();
-        }
+        
     }
 
     /**

@@ -124,6 +124,14 @@
         <servlet-name>Paybooking</servlet-name>
         <servlet-class>controls.Paybooking</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>checkinventory</servlet-name>
+        <servlet-class>controls.checkinventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>wetherreport</servlet-name>
+        <servlet-class>controls.wetherreport</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterController</servlet-name>
         <url-pattern>/RegisterController</url-pattern>
@@ -247,6 +255,14 @@
     <servlet-mapping>
         <servlet-name>Paybooking</servlet-name>
         <url-pattern>/Paybooking</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>checkinventory</servlet-name>
+        <url-pattern>/checkinventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>wetherreport</servlet-name>
+        <url-pattern>/wetherreport</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

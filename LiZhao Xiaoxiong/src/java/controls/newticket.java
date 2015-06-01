@@ -59,40 +59,50 @@ public class newticket extends HttpServlet {
             throws ServletException, IOException {
         String schid = request.getParameter("schid");
         EntityManager em = emf.createEntityManager();
-        Schedule sch = em.getReference(Schedule.class, schid);
+        Schedule sch = em.getReference(Schedule.class, Integer.parseInt(schid));
         Airplane ap = sch.getPlaneID();
+        em.refresh(ap);
         List<Seat> seats = ap.getSeatList();
         
         PrintWriter out = response.getWriter(); 
-        out.println("<tr><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th>");
+        out.println("<tr><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th><th>select</th><th>seatnumber</th></tr>");
         
         int row = 1;
         for(int i = 0;i < seats.size();i ++){
-            if(row == 1)
-                out.println("<tr>");
-            if(seats.get(i).getOccupied() == true)
-                out.println("<td><button onlick = 'getseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info' disabled>select</button>");
-            else
-                out.println("<td><button onlick = 'getseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info'>select</button>");
+            if(row == 1){
+                out.print("<tr>");
+            }
+            
+            if(seats.get(i).getOccupied() == true){
+                out.print("<td><button onclick = 'getseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-warning' disabled>select</button></td>");
+            }
+            else{
+                out.print("<td><button onclick = 'getseatid(" + seats.get(i).getSeatId() + ")' class = 'btn btn-info'>select</button></td>");
+            }
             
             if(seats.get(i).getSeatClass().equals("first")){
-                out.println("<td class=\"success\">" + seats.get(i).getSeatNumber() + "</td>");
+                out.print("<td class=\"success\">" + seats.get(i).getSeatNumber() + "</td>");
             }
             else if(seats.get(i).getSeatClass().equals("business")){
-                out.println("<td class=\"info\">" + seats.get(i).getSeatNumber() + "</td>");
+                out.print("<td class=\"info\">" + seats.get(i).getSeatNumber() + "</td>");
             }
             else if(seats.get(i).getSeatClass().equals("economy")){
-                out.println("<td class=\"warning\">" + seats.get(i).getSeatNumber() + "</td>");
+                out.print("<td class=\"warning\">" + seats.get(i).getSeatNumber() + "</td>");
             }
             else if(seats.get(i).getSeatClass().equals("premium")){
-                out.println("<td class=\"danger\">" + seats.get(i).getSeatNumber() + "</td>");
+                out.print("<td class=\"danger\">" + seats.get(i).getSeatNumber() + "</td>");
             }
-            if(row == 1)
+            
+            row += 1;
+            if(row == 4){
                 out.println("</tr>");
-            row ++;
-            if(row == 3)
                 row = 1;
+            }
+            
+           
+                    
         }
+        em.close();
     }
 
     /**
@@ -120,11 +130,12 @@ public class newticket extends HttpServlet {
             Schedule sch = em.getReference(Schedule.class, Integer.parseInt(schid));
             Route rt = sch.getRouteID();
             Seat st = em.getReference(Seat.class, Integer.parseInt(seatid));
+            st.setOccupied(true);
             Ticket tk = new Ticket();
             
             tk.setCustomerId(cus);
             tk.setScheduleID(sch);
-            tk.setSeatNumber(st);
+            tk.setSeatId(st);
             tk.setPayed(false);
             em.persist(tk);
             utx.commit();

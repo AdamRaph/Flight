@@ -51,14 +51,15 @@ public class changeseat extends HttpServlet {
         String user = (String)hs.getAttribute("username");
         Login lg = em.getReference(Login.class, user);
         Customer cus = lg.getCustomer();
+        em.refresh(cus);
         List<Ticket> tickets = cus.getTicketList();
-        
+       
         PrintWriter out = response.getWriter();
         out.println("<tr><td>change</td><td>seatnumber</td></tr>");
         
         for(Ticket tk:tickets){
             out.println("<tr><td><button data-toggle='modal' data-target='#confirmseatchange' onclick = 'changeseat(" + tk.getTicketID() + ")' class='btn btn-info'>change seat</button>" + 
-                    "</td><td id = '" + tk.getTicketID() + "n'>" + tk.getSeatNumber().getSeatNumber() + "</td></tr>");
+                    "</td><td id = '" + tk.getTicketID() + "n'>" + tk.getSeatId().getSeatNumber() + "</td></tr>");
         }
     }
 

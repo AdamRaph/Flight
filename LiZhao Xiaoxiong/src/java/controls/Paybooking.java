@@ -59,8 +59,8 @@ public class Paybooking extends HttpServlet {
         EntityManager em = emf.createEntityManager();
         Login lg = em.getReference(Login.class, user);
         Customer cus = lg.getCustomer();
-        List<Ticket> tks = cus.getTicketList();
-        
+        em.refresh(cus);
+        List<Ticket> tks = cus.getTicketList();        
         PrintWriter out = response.getWriter(); 
         out.println(
     "    <tr>\n" +
@@ -69,7 +69,7 @@ public class Paybooking extends HttpServlet {
         
         for(Ticket tk:tks){
             out.println("<tr><td><button data-toggle='modal' data-target='#confirmpaying' class='btn btn-info' onclick='buyticket(" + tk.getTicketID() + ")'>" + 
-                    "</button></td><td>" + tk.getTicketID() + "</td><td id='" + tk.getTicketID() + "p'>" + tk.getPayed() + "</td></tr>");
+                    "Pay</button></td><td>" + tk.getTicketID() + "</td><td id='" + tk.getTicketID() + "p'>" + tk.getPayed() + "</td></tr>");
         }
     }
 
@@ -85,18 +85,23 @@ public class Paybooking extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            int OK = 0;
             String payid = request.getParameter("paytkid");
-            
+            String cre = request.getParameter("confirmcre");
             utx.begin();
             EntityManager em = emf.createEntityManager();
             Ticket tk = em.getReference(Ticket.class, Integer.parseInt(payid));
-            tk.setPayed(true);
+            if(tk.getCustomerId().getCreditCardNum().equals(cre) == true){
+                tk.setPayed(true);
+                OK = 1;
+            }
+            
             em.persist(tk);
             utx.commit();
             em.close();
             
             PrintWriter out = response.getWriter(); 
-            out.println(true);
+            out.println(OK);
         } catch (NotSupportedException ex) {
             ex.printStackTrace();
         } catch (SystemException ex) {

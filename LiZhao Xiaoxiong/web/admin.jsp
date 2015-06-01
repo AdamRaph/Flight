@@ -36,9 +36,12 @@
                 <ul class="collapse" id="Assjob">
                     <li id="m1">
                         <a href="#" onclick="adminusecase(1)">Assign manager <span class="glyphicon glyphicon-pawn"></span></a>
-                    </li>                                              
+                    </li>     
+                    <li id="m2">
+                        <a href="#" onclick="adminusecase(2)">shifting to manager <span class="glyphicon glyphicon-pawn"></span></a>
+                    </li> 
                 </ul>
-                                
+                               
             </ul>
         </div>
         
@@ -65,6 +68,14 @@
         </div>
         <div id="sec1" style="display: none;">
             <jsp:include page="createrole.jsp"/>
+        </div>
+        <div id="sec2" style="display: none;">
+            <ul class="list-group">
+                <li class="list-group-item"><a href="flightmanager.jsp">flight manager <span class="glyphicon glyphicon-queen"></span></a></li>
+                <li class="list-group-item"><a href="servicemanager.jsp">service manager <span class="glyphicon glyphicon-bishop"></span></a></li>
+                <li class="list-group-item"><a href="profilemanager.jsp">profile manager <span class="glyphicon glyphicon-knight"></span></a></li>
+                <li class="list-group-item"><a href="bookingmanager.jsp">booking manager <span class="glyphicon glyphicon-pawn"></span></a></li>
+            </ul>
         </div>
         
     </div>

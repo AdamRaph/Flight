@@ -63,7 +63,7 @@ public class Seat implements Serializable {
     @JoinColumn(name = "PlaneID", referencedColumnName = "PlaneID")
     @ManyToOne(optional = false)
     private Airplane planeID;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seatNumber")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seatId")
     private List<Ticket> ticketList;
 
     public Seat() {

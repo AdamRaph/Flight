@@ -19,7 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,10 +31,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Ticket.findAll", query = "SELECT t FROM Ticket t"),
     @NamedQuery(name = "Ticket.findByTicketID", query = "SELECT t FROM Ticket t WHERE t.ticketID = :ticketID"),
-    @NamedQuery(name = "Ticket.findBySourceAirport", query = "SELECT t FROM Ticket t WHERE t.sourceAirport = :sourceAirport"),
-    @NamedQuery(name = "Ticket.findByDestinationAirport", query = "SELECT t FROM Ticket t WHERE t.destinationAirport = :destinationAirport"),
-    @NamedQuery(name = "Ticket.findByDepartTime", query = "SELECT t FROM Ticket t WHERE t.departTime = :departTime"),
-    @NamedQuery(name = "Ticket.findByArriveTime", query = "SELECT t FROM Ticket t WHERE t.arriveTime = :arriveTime"),
     @NamedQuery(name = "Ticket.findByPayed", query = "SELECT t FROM Ticket t WHERE t.payed = :payed")})
 public class Ticket implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -46,31 +41,11 @@ public class Ticket implements Serializable {
     private Integer ticketID;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "sourceAirport")
-    private String sourceAirport;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 3)
-    @Column(name = "destinationAirport")
-    private String destinationAirport;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
-    @Column(name = "departTime")
-    private String departTime;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
-    @Column(name = "arriveTime")
-    private String arriveTime;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "payed")
     private boolean payed;
-    @JoinColumn(name = "seat_number", referencedColumnName = "seat_number")
+    @JoinColumn(name = "seat_id", referencedColumnName = "seat_id")
     @ManyToOne(optional = false)
-    private Seat seatNumber;
+    private Seat seatId;
     @JoinColumn(name = "scheduleID", referencedColumnName = "scheduleID")
     @ManyToOne(optional = false)
     private Schedule scheduleID;
@@ -85,12 +60,8 @@ public class Ticket implements Serializable {
         this.ticketID = ticketID;
     }
 
-    public Ticket(Integer ticketID, String sourceAirport, String destinationAirport, String departTime, String arriveTime, boolean payed) {
+    public Ticket(Integer ticketID, boolean payed) {
         this.ticketID = ticketID;
-        this.sourceAirport = sourceAirport;
-        this.destinationAirport = destinationAirport;
-        this.departTime = departTime;
-        this.arriveTime = arriveTime;
         this.payed = payed;
     }
 
@@ -102,38 +73,6 @@ public class Ticket implements Serializable {
         this.ticketID = ticketID;
     }
 
-    public String getSourceAirport() {
-        return sourceAirport;
-    }
-
-    public void setSourceAirport(String sourceAirport) {
-        this.sourceAirport = sourceAirport;
-    }
-
-    public String getDestinationAirport() {
-        return destinationAirport;
-    }
-
-    public void setDestinationAirport(String destinationAirport) {
-        this.destinationAirport = destinationAirport;
-    }
-
-    public String getDepartTime() {
-        return departTime;
-    }
-
-    public void setDepartTime(String departTime) {
-        this.departTime = departTime;
-    }
-
-    public String getArriveTime() {
-        return arriveTime;
-    }
-
-    public void setArriveTime(String arriveTime) {
-        this.arriveTime = arriveTime;
-    }
-
     public boolean getPayed() {
         return payed;
     }
@@ -142,12 +81,12 @@ public class Ticket implements Serializable {
         this.payed = payed;
     }
 
-    public Seat getSeatNumber() {
-        return seatNumber;
+    public Seat getSeatId() {
+        return seatId;
     }
 
-    public void setSeatNumber(Seat seatNumber) {
-        this.seatNumber = seatNumber;
+    public void setSeatId(Seat seatId) {
+        this.seatId = seatId;
     }
 
     public Schedule getScheduleID() {

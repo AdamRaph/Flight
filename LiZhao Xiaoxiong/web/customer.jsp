@@ -92,21 +92,29 @@
                             HttpSession hs=request.getSession(true);  
                             String user = (String)hs.getAttribute("username");                         
             
-                            out.println("Hello customer" + user);
+                            out.println("Hello customer " + user);
                             %></h1>
                         </div> 
                     
                     <img src="images/customer.jpg" class="img-responsive" >
+                    <div class="col-md-12 col-xs-5 col7">
+                        <label for="service">Checking what on service today</label>
+                        <select class="form-control" onchange="checkservicetoday()" id="service">
+                            <option value="All">All</option>
+                            <option value="Intenational">Intenational</option>                            
+                        </select>
+                        <ul class="list-group" id="cheinven"></ul>
+                    </div>
             </div>
             <div id="sec1" style="display: none;">
                 <jsp:include page="listbookingCS.jsp"/>
             </div>
             <div id="sec2"  style="display: none;">
                <label for="startdate">start date</label>
-                <input class="form-control datepicker" name="startdate" id="startdate" data-date-format="mm/dd/yyyy">
+               <input class="form-control datepicker" name="startdate" id="startdate" data-date-format="mm/dd/yyyy" required>
                 
                 <label for="enddate">end date</label>
-                <input class="form-control datepicker" name="enddate" id="enddate" data-date-format="mm/dd/yyyy">
+                <input class="form-control datepicker" name="enddate" id="enddate" data-date-format="mm/dd/yyyy" required>
                 
                 <button onclick="search()" class="btn btn-info">search for schedule</button>
                 
@@ -216,6 +224,8 @@
                             <form class="form-control" id="payticket">                                
                                 <input class="form-control" id="paytkid" name="paytkid" type="hidden">                              
 
+                                <label for="confirmcre">Confirm Credit Card</label>
+                                <input class="form-control" id="confirmcre" name="confirmcre" type="text">
                                 <input onclick="ajax20()" type="submit" class="form-control btn btn-warning btn-lg btn-primary"  value="confirm">
                             </form>
                         </div>
@@ -228,8 +238,31 @@
 </div>
    
 <script>
+    function checkservicetoday(){
+        var type = document.getElementById("service").value
+        var onetime = true;
+    if(onetime == true){
+        $.get('checkinventory', {
+            type:type
+           }, function(response) {
+                $('#cheinven').html(response);
+        }).fail(function(){
+            alert( "Getting failed." );
+        });
+        onetime = false;
+    }
+    }
+    
+    function buyticket(btkid){
+        document.getElementById("paytkid").value = btkid;
+    }
+    
+    function switchseatid(nis){
+        document.getElementById("nseatid").value = nis;
+    }
+    
     $('.datepicker').datepicker({
-        startDate: '-3d';
+        startDate: '-3d'
     })
     
     $("#menu-toggle").click(function(e) {

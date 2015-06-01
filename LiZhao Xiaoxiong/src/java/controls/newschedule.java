@@ -64,7 +64,7 @@ public class newschedule extends HttpServlet {
         
         for(Route rt:rts){
             out.println("<tr><td><button class='btn btn-info' onclick='renderroute(" + rt.getRouteID() + ")'>choose</button></td>" +
-                    "<td>" + rt.getRouteID() +"</td><td id = '" + rt.getRouteID() + "s'>" + rt.getSourceAirport() + "</td><td>" + rt.getDestinationAirport() + "</td></tr>");
+                    "<td>" + rt.getRouteID() +"</td><td id = '" + rt.getRouteID() + "s'>" + rt.getSourceAirport().getName() + "</td><td>" + rt.getDestinationAirport().getName() + "</td></tr>");
         }
     }
 
@@ -86,14 +86,14 @@ public class newschedule extends HttpServlet {
             String deptime = request.getParameter("deptime");
             String ardates = request.getParameter("ardate");
             String artime = request.getParameter("artime");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             Date depdate = df.parse(depdates);
             Date ardate = df.parse(ardates);
             
             utx.begin();
             EntityManager em = emf.createEntityManager();
-            Route rt = em.getReference(Route.class, Choroute);
-            Airplane ap = em.getReference(Airplane.class, Chopid);
+            Route rt = em.getReference(Route.class, Integer.parseInt(Choroute));
+            Airplane ap = em.getReference(Airplane.class, Integer.parseInt(Chopid));
             
             Schedule sch = new Schedule();
             sch.setRouteID(rt);

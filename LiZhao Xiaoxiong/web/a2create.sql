@@ -87,7 +87,6 @@ CREATE TABLE `Seat`
 	`PlaneID` 	INTEGER(4)		NOT NULL,
 	
 	CONSTRAINT Seat_PK PRIMARY KEY(`seat_id`),
-	CONSTRAINT Seat_NUM UNIQUE (`seat_number`),
 	
 	CONSTRAINT Seat_FK
 	FOREIGN KEY (`PlaneID`) 
@@ -190,11 +189,7 @@ CREATE TABLE `Ticket`
 	`ticketID`				INTEGER(4)	NOT NULL AUTO_INCREMENT,	
 	`customer_id` 			INTEGER(4)	NOT NULL,
 	`scheduleID`				INTEGER(4)	NOT NULL,
-	`seat_number`			VARCHAR(3)	NOT NULL,
-	`sourceAirport`			VARCHAR(3)	NOT NULL,
-	`destinationAirport`	VARCHAR(3)	NOT NULL,
-	`departTime`			VARCHAR(64) NOT NULL,
-	`arriveTime`			VARCHAR(64)	NOT NULL,
+	`seat_id`			INTEGER(4)	NOT NULL,	
 	`payed`					BOOLEAN		NOT NULL,
 	
 	CONSTRAINT Ticket_PK PRIMARY KEY(`ticketID`),
@@ -212,8 +207,8 @@ CREATE TABLE `Ticket`
 	ON UPDATE NO ACTION,
 			
 	CONSTRAINT Ticket6_FK
-	FOREIGN KEY (`seat_number`)
-	REFERENCES `Seat`(`seat_number`)
+	FOREIGN KEY (`seat_id`)
+	REFERENCES `Seat`(`seat_id`)
         ON DELETE CASCADE
 	ON UPDATE NO ACTION
 );

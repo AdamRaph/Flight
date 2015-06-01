@@ -46,7 +46,7 @@ public class planelistforsch extends HttpServlet {
             throws ServletException, IOException {
         String sourceA = request.getParameter("sourceA");
             EntityManager em = emf.createEntityManager();
-            Airport ar = em.getReference(Airport.class, sourceA);
+            Airport ar = em.createNamedQuery("Airport.findByName", Airport.class).setParameter("name", sourceA).getSingleResult();
             List<Fleet> fts = ar.getFleetList();
             
             PrintWriter out = response.getWriter();
@@ -54,10 +54,11 @@ public class planelistforsch extends HttpServlet {
             for(Fleet ft:fts){
                 List<Airplane> aps = ft.getAirplaneList();
                 for(Airplane ap:aps){
-                    out.println("<tr><td><button class='btn btn-info' onclick='addthisplane('" + ap.getPlaneID() + ")'>choose</button></td><td>" + 
+                    out.println("<tr><td><button class='btn btn-info' onclick='addthisplane(" + ap.getPlaneID() + ")'>choose</button></td><td>" + 
                             ap.getPlaneID() + "</td><td>" + ap.getTotal() + "</td><tr>");
                 }
             }
+            em.close();
     }
 
     /**

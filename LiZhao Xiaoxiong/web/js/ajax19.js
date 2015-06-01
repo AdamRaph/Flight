@@ -9,7 +9,7 @@ function ajax19(){
             document.getElementById(tknum).innerHTML = data
             
             onetime = false;
-            alert("successfull delete schedule");
+            alert("successfull switch the seat");
              
         }).fail(function() {  
             onetime = false;

@@ -3,13 +3,19 @@ function ajax20(){
     $('#payticket').submit(function(){
         if(onetime == true){
         $.post('Paybooking', $('#payticket').serialize(), function(data){
+            onetime = false;
             var tkid = document.getElementById("paytkid").value;
             var tknum = tkid + "p";
             
-            document.getElementById(tknum).innerHTML = data
+            if(parseInt(data) == 1){
+                document.getElementById(tknum).innerHTML = true;
+                alert("successfull pay for the ticket");
+            }
+            else{
+                alert("Payment reject,please check the credit card is card");
+            }
             
-            onetime = false;
-            alert("successfull delete schedule");
+            
              
         }).fail(function() {  
             onetime = false;

@@ -55,8 +55,9 @@ public class newplane extends HttpServlet {
             throws ServletException, IOException {
         String fid = request.getParameter("fleetid");
         
-        EntityManager em = emf.createEntityManager();
-        Fleet ft = em.getReference(Fleet.class, fid);
+        EntityManager em = emf.createEntityManager();       
+        Fleet ft = em.getReference(Fleet.class, Integer.parseInt(fid));
+        em.refresh(ft);
         List<Airplane> aps = ft.getAirplaneList();
         
          PrintWriter out = response.getWriter(); 
@@ -65,6 +66,7 @@ public class newplane extends HttpServlet {
          for(Airplane ap:aps){
              out.println("<tr><td>" + ap.getPlaneID() + "</td><td>" + ap.getFirstClass() + "</td><td>" + ap.getBusinessClass() + "</td><td>" + ap.getPremiumClass() + "</td><td>" + ap.getEconomyClass() +"</td><td>" + ap.getTotal() + "</td></tr>");
          }
+         em.close();
     }
 
     /**
@@ -79,7 +81,7 @@ public class newplane extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            String fleetid = request.getParameter("choosing");
+            String fleetid = request.getParameter("choosing3");
             String fclass = request.getParameter("fclass");
             String bclass = request.getParameter("bclass");
             String eclass = request.getParameter("eclass");
@@ -112,13 +114,13 @@ public class newplane extends HttpServlet {
                 if(i < fclassn){
                     s.setPlaneID(ap);
                     s.setSeatClass("first");
-                    s.setSeatNumber(f + "F");
+                    s.setSeatNumber(f + "F");                    
                     f ++;
                 }
                 else if(i >= fclassn && i < fclassn + bclassn){
                     s.setPlaneID(ap);
                     s.setSeatClass("business");
-                    s.setSeatNumber(f + "B");
+                    s.setSeatNumber(b + "B");
                     b ++;
                 }
                 else if(i >= fclassn + bclassn && i < fclassn + bclassn + eclassn){
@@ -133,6 +135,7 @@ public class newplane extends HttpServlet {
                     s.setSeatNumber(p + "P");
                     p ++;
                 }
+                s.setOccupied(false);
                 seats.add(s);
             }
             ap.setSeatList(seats);
